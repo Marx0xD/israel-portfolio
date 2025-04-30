@@ -39,9 +39,9 @@ export default function SignatureOverlay() {
             transition={{ type: "spring", stiffness: 200 }}
             className="text-primary text-3xl sm:text-4xl font-semibold leading-relaxed"
           >
-            &quot;Craft over code. Clarity over complexity.&quot;  
+            &quot;Out of suffering have emerged the strongest souls; the most massive characters are seared with scars.&quot;  
             <br />
-            — Israel Asefa
+            — Kahlil Gibran
           </motion.div>
         </motion.div>
       )}

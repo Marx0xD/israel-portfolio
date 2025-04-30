@@ -5,14 +5,11 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import ScrollIndicator from "@/components/ScrollIndicator";
-
 import { Typewriter } from "react-simple-typewriter";
 
 export default function Hero() {
   return (
     <section className="relative flex flex-col items-center justify-center py-24 sm:py-32 px-6 sm:px-8 max-w-6xl mx-auto bg-background text-foreground text-center space-y-8 overflow-hidden">
-      {/* Particles Background */}
-
       {/* Avatar with gentle hover pulse */}
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
@@ -37,9 +34,25 @@ export default function Hero() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
-        className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-primary drop-shadow-lg"
+        className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight drop-shadow-lg"
       >
-        Hi, I&apos;m Israel Asefa
+        Hi, I&apos;m{" "}
+        <span className="inline-flex">
+          <motion.span
+            animate={{
+              backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+            }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            className="bg-gradient-to-r from-pink-500 via-yellow-400 to-purple-500 bg-[length:200%_200%] bg-clip-text text-transparent"
+          >
+            Isr
+          </motion.span>
+          ael Asefa
+        </span>
       </motion.h1>
 
       {/* Typewriter */}
@@ -60,7 +73,7 @@ export default function Hero() {
         />
       </motion.div>
 
-      {/* Contact Me Button with squish effect */}
+      {/* Contact Me Button */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -69,9 +82,7 @@ export default function Hero() {
         className="mt-6"
       >
         <Link href="#contact">
-          <Button
-            className="bg-primary hover:bg-primary/80 text-white px-8 py-4 text-lg font-semibold rounded-full shadow-lg hover:shadow-2xl transition-all"
-          >
+          <Button className="bg-primary hover:bg-primary/80 text-white px-8 py-4 text-lg font-semibold rounded-full shadow-lg hover:shadow-2xl transition-all">
             Contact Me
           </Button>
         </Link>
