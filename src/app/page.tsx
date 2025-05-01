@@ -50,7 +50,8 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="flex flex-col space-y-3 py-16 px-8 max-w-6xl mx-auto bg-background text-foreground mt-4">
+      <main className="flex flex-col space-y-3 py-16 px-8 max-w-6xl mx-auto bg-background/90 backdrop-blur-sm text-foreground mt-4">
+
         {/* Hero Section */}
         <motion.section
           initial="hidden"
