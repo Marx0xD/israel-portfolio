@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { Github, Linkedin, Mail, Menu } from "lucide-react";
 
 export default function Navbar() {
@@ -36,12 +37,22 @@ export default function Navbar() {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className={`fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-background/80 border-b border-border px-8 py-4 transition-shadow duration-300 ${shadow ? "shadow-md" : ""}`}
+      className={`fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-background/80 border-b border-border px-8 py-4 transition-shadow duration-300 ${
+        shadow ? "shadow-md" : ""
+      }`}
     >
       <div className="flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="text-primary font-bold text-xl">
-          Israel Asefa
+        {/* Logo + Text */}
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src="/IA.png"
+            alt="Logo"
+            width={32}
+            height={32}
+            className="w-8 h-8"
+            priority
+          />
+          <span className="text-primary font-bold text-xl">Israel Asefa</span>
         </Link>
 
         {/* Desktop Nav */}
@@ -66,7 +77,6 @@ export default function Navbar() {
 
         {/* Right-side buttons */}
         <div className="hidden md:flex items-center gap-4">
-          {/* Resume Button */}
           <a
             href="/resume.pdf"
             download
@@ -75,7 +85,6 @@ export default function Navbar() {
             Resume
           </a>
 
-          {/* Social Icons */}
           <div className="flex gap-4 text-muted-foreground">
             <a
               href="https://github.com/israel0x7CF"
@@ -93,7 +102,10 @@ export default function Navbar() {
             >
               <Linkedin size={20} />
             </a>
-            <a href="mailto:israel.asefawm.mi1055@gmail.com" className="hover:text-primary">
+            <a
+              href="mailto:israel.asefawm.mi1055@gmail.com"
+              className="hover:text-primary"
+            >
               <Mail size={20} />
             </a>
           </div>

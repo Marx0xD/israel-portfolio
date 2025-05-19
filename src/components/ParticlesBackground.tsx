@@ -32,7 +32,7 @@ export default function ParticlesBackground() {
           },
           particles: {
             number: { value: 100, density: { enable: true } },
-            color: { value: "#67e8f9" },
+            color: { value: "#FFF" },
             shape: { type: ["circle", "triangle", "square"] },
             links: {
               enable: true,
