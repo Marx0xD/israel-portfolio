@@ -2,27 +2,52 @@
 
 import { motion } from "framer-motion";
 
-const experiences = [
+const fadeUp = {
+  hidden: { opacity: 0, y: 14 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: "easeOut" },
+  },
+};
+
+const EXPERIENCES = [
   {
-    company: "NiteShiftSystems",
-    title: "Backend Engineer",
-    duration: "Feb 2023 – Present",
-    description:
-      "Built fullstack modules, authentication, notification services and admin dashboards using Next.js, Spring Boot, and Supabase.",
+    company: "NiteShift Systems",
+    role: "Backend Engineer",
+    period: "Feb 2023 – Present",
+    context:
+      "Owned backend modules for distributed products with real production usage.",
+    responsibilities: [
+      "Authentication and identity services",
+      "Event-driven notifications and workflows",
+      "Admin and operational dashboards",
+      "Schema design and migrations",
+    ],
   },
   {
     company: "ETTA Solutions",
-    title: "Backend Engineer",
-    duration: "Jun 2023 – Sep 2024",
-    description:
-      "Built Tender Management, Payment Systems, Wallet Systems and Deployed SaaS servers with Spring Boot.",
+    role: "Backend Engineer",
+    period: "Jun 2023 – Sep 2024",
+    context:
+      "Built and maintained backend systems supporting financial and enterprise workflows.",
+    responsibilities: [
+      "Payment and wallet system design",
+      "Tender management workflows",
+      "SaaS server deployment and operations",
+    ],
   },
   {
     company: "Ahaz Software Solutions",
-    title: "Fullstack Developer (Part-time)",
-    duration: "Feb 2021 – Dec 2022",
-    description:
-      "Modernized old React codebases, built HRMS with Spring Boot, and integrated biometric devices using Python.",
+    role: "Fullstack Developer (Part-time)",
+    period: "Feb 2021 – Dec 2022",
+    context:
+      "Early-stage engineering work across frontend, backend, and integrations.",
+    responsibilities: [
+      "Modernized legacy React codebases",
+      "HRMS backend development",
+      "Biometric device integrations (Python)",
+    ],
   },
 ];
 
@@ -30,72 +55,53 @@ export default function ExperienceSection() {
   return (
     <section
       id="experience"
-      className="relative pt-32 pb-24 border-t border-border bg-background text-foreground overflow-hidden"
+      className="relative py-32 border-t border-subtle"
     >
-      {/* Ambient blurred glow background */}
-      <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[70vw] h-[70vw] rounded-full bg-primary opacity-10 blur-[150px] -z-10" />
-
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-        className="max-w-4xl mx-auto px-6 sm:px-8"
-      >
-        {/* Section Header */}
+      <div className="mx-auto max-w-7xl px-6 grid grid-cols-12 gap-8">
+        {/* LEFT — LABEL */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="mb-12 text-center"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="col-span-12 md:col-span-4"
         >
-          <h2 className="text-4xl sm:text-5xl font-bold text-primary relative inline-block">
-            Experience
-            <span className="block h-1 w-16 bg-primary rounded-full mt-2 mx-auto" />
-          </h2>
-          <p className="mt-2 text-muted-foreground text-lg">
-            Where I’ve worked, built, and grown professionally.
-          </p>
+          <span className="font-mono text-xs tracking-widest text-muted">
+            EXPERIENCE
+          </span>
         </motion.div>
 
-        {/* Experience Items */}
-        <div className="space-y-12 relative">
-          {experiences.map((exp, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 + idx * 0.15 }}
-              viewport={{ once: true }}
-              className="relative flex gap-6 items-start group"
-            >
-              {/* Dot and vertical line container */}
-              <div className="relative flex flex-col items-center">
-                {/* Dot */}
-                <div className="w-4 h-4 rounded-full bg-primary shadow-md z-10" />
-                {/* Line */}
-                {idx < experiences.length - 1 && (
-                  <div className="w-px flex-1 bg-border mt-1" />
-                )}
+        {/* RIGHT — EXPERIENCE LIST */}
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="col-span-12 md:col-span-8 space-y-12 font-mono text-xs"
+        >
+          {EXPERIENCES.map((exp) => (
+            <div key={exp.company}>
+              <div className="tracking-widest text-foreground">
+                {exp.role} — {exp.company}
               </div>
 
-              {/* Card content */}
-              <div className="p-6 bg-card border border-border rounded-xl shadow-md hover:shadow-lg transition-all duration-300 w-full">
-                <h3 className="text-2xl font-semibold">
-                  {exp.title}{" "}
-                  <span className="text-primary font-normal">
-                    @ {exp.company}
-                  </span>
-                </h3>
-                <p className="text-sm text-muted-foreground">{exp.duration}</p>
-                <p className="mt-3 text-base leading-relaxed text-foreground">
-                  {exp.description}
-                </p>
+              <div className="mt-1 text-muted">
+                {exp.period}
               </div>
-            </motion.div>
+
+              <div className="mt-3 text-muted max-w-xl">
+                {exp.context}
+              </div>
+
+              <ul className="mt-3 space-y-1 text-muted">
+                {exp.responsibilities.map((r) => (
+                  <li key={r}>→ {r}</li>
+                ))}
+              </ul>
+            </div>
           ))}
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
     </section>
   );
 }

@@ -1,9 +1,10 @@
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import ParticlesBackground from "@/components/ParticlesBackground";
 import SignatureOverlay from "@/components/SignatureOverlay";
+import MatrixField from "@/components/ParticlesBackground";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,7 +39,7 @@ export default function RootLayout({
         >
           {/* Full-page particles behind everything */}
           <div className="relative">
-            <ParticlesBackground />
+             < MatrixField />
             {/* Your app content above the particles */}
             <div className="relative z-10">
               {children}

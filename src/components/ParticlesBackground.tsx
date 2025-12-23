@@ -1,56 +1,103 @@
 "use client";
 
-import { useEffect } from "react";
-import Particles, { initParticlesEngine } from "@tsparticles/react";
-import { loadSlim } from "@tsparticles/slim";
+import { useEffect, useState } from "react";
 
-export default function ParticlesBackground() {
+const GLYPHS = [
+  // Binary / Hex
+  "0","1","A","B","C","D","E","F",
+
+  // Operators / Structure
+  "{","}","[","]","<",">","/","\\","=","|","+","-",
+
+  // Cyrillic (fragmentary, no words)
+  "Ж","П","Ф","Ц","Ш","Щ","Я","Ю","Б","Д","Л","Г","К","Р","Т","М",
+
+  // Mathematical / Ideological
+  "∑","∏","∫","∆","∇","≈","≠","≤","≥","∞","∈","⊂","⊃",
+
+  // Block / Terminal
+  "░","▒","▓","█","▄","▀","■","□","▢","▣",
+
+  // Control / Misc
+  "#","@","$","§","¶"
+];
+function randomGlyph() {
+  return GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+}
+
+function generateColumn(length: number) {
+  return Array.from({ length }, randomGlyph);
+}
+
+export default function MatrixField() {
+  const [columns, setColumns] = useState<number>(0);
+
   useEffect(() => {
-    initParticlesEngine(async (engine: any) => {
-      await loadSlim(engine);
-    });
+    const calc = () => setColumns(Math.floor(window.innerWidth / 18));
+    calc();
+    window.addEventListener("resize", calc);
+    return () => window.removeEventListener("resize", calc);
   }, []);
 
-  return (
-    <div className="fixed inset-0 -z-10">
-      <Particles
-        id="tsparticles-fullpage"
-        options={{
-          fullScreen: { enable: false }, // full screen disabled since div handles sizing
-          background: { color: { value: "transparent" } },
-          fpsLimit: 60,
-          interactivity: {
-            events: {
-              onHover: { enable: true, mode: "grab" },
-              onClick: { enable: true, mode: "push" },
-              resize: { enable: true },
-            },
-            modes: {
-              grab: { distance: 200, links: { opacity: 0.5 } },
-              push: { quantity: 4 },
-            },
-          },
-          particles: {
-            number: { value: 100, density: { enable: true } },
-            color: { value: "#FFF" },
-            shape: { type: ["circle", "triangle", "square"] },
-            links: {
-              enable: true,
-              distance: 150,
-              color: "#67e8f9",
-              opacity: 0.2,
-              width: 1,
-            },
-            move: { enable: true, speed: 0.3, outModes: { default: "out" } },
-            size: { value: { min: 1, max: 3 } },
-            opacity: { value: 0.4 },
-          },
-          detectRetina: true,
-        }}
-      />
+  if (!columns) return null;
 
-      {/* Gradient mask */}
-      <div className="absolute inset-0 pointer-events-none bg-radial-gradient-mask" />
+  return (
+    <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+      <div className="absolute inset-0 flex">
+        {Array.from({ length: columns }).map((_, i) => (
+          <MatrixColumn key={i} index={i} />
+        ))}
+      </div>
+
+      {/* containment */}
+      <div
+        className="
+          absolute inset-0
+          bg-[radial-gradient(ellipse_at_center,
+          transparent_0%,
+          rgba(0,0,0,0.35)_60%,
+          var(--background)_100%)]
+        "
+      />
+    </div>
+  );
+}
+
+function MatrixColumn({ index }: { index: number }) {
+  const symbols = generateColumn(40);
+
+  const duration = 18 + (index % 6) * 2;
+  const delay = (index % 12) * -1.5;
+
+  return (
+    <div
+      className="flex flex-col items-center"
+      style={{
+        width: 18,
+        animationName: "matrix-fall",
+        animationDuration: `${duration}s`,
+        animationTimingFunction: "linear",
+        animationIterationCount: "infinite",
+        animationDelay: `${delay}s`,
+      }}
+    >
+      {symbols.map((c, i) => (
+        <span
+          key={i}
+          className="
+            font-mono
+            text-xs
+            leading-none
+            opacity-[0.12]
+          "
+          style={{
+            color: "var(--accent-primary)",
+            opacity: 0.05 + (i / symbols.length) * 0.25,
+          }}
+        >
+          {c}
+        </span>
+      ))}
     </div>
   );
 }

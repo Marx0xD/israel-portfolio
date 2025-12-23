@@ -1,154 +1,178 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import Link from "next/link";
 import Image from "next/image";
-import { Github, Linkedin, Mail, Menu } from "lucide-react";
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
+
+const NAV_ITEMS = [
+  { label: "OVERVIEW", href: "#overview" },
+  { label: "SYSTEMS", href: "#systems" },
+  { label: "ARCHITECTURE", href: "#architecture" },
+  { label: "FAILURE_MODES", href: "#failure" },
+];
 
 export default function Navbar() {
-  const [shadow, setShadow] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("about");
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setShadow(window.scrollY > 10);
-
-      const sections = ["about", "experience", "skills", "projects"];
-      for (const id of sections) {
-        const section = document.getElementById(id);
-        if (section) {
-          const rect = section.getBoundingClientRect();
-          if (rect.top <= 100 && rect.bottom >= 100) {
-            setActiveSection(id);
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const [open, setOpen] = useState(false);
 
   return (
     <motion.nav
-      initial={{ opacity: 0, y: -20 }}
+      initial={{ opacity: 0, y: -6 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className={`fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-background/80 border-b border-border px-8 py-4 transition-shadow duration-300 ${
-        shadow ? "shadow-md" : ""
-      }`}
+      transition={{ duration: 0.35, ease: "easeOut" }}
+      className="
+        fixed top-0 left-0 z-50 w-full
+        bg-background/80 backdrop-blur-md
+        border-b border-subtle
+      "
     >
-      <div className="flex items-center justify-between">
-        {/* Logo + Text */}
-        <Link href="/" className="flex items-center gap-2">
+      <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
+        {/* LEFT — IDENTITY */}
+        <a href="#overview" className="flex items-center gap-3">
           <Image
-            src="/IA.png"
-            alt="Logo"
-            width={32}
-            height={32}
-            className="w-8 h-8"
+            src="/MarxLogo.png"
+            alt="MARX"
+            width={30}
+            height={30}
+            className="opacity-95"
             priority
           />
-          <span className="text-primary font-bold text-xl">Israel Asefa</span>
-        </Link>
+          <div className="flex flex-col leading-none">
+            <span className="font-mono text-[10px] tracking-widest text-muted">
+              CONTROL PLANE
+            </span>
+            <span className="font-sans text-sm tracking-tight">MARX</span>
+          </div>
+        </a>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex gap-6 text-muted-foreground text-sm">
-          {[
-            { label: "About", id: "about" },
-            { label: "Experience", id: "experience" },
-            { label: "Skills", id: "skills" },
-            { label: "Projects", id: "projects" },
-          ].map(({ label, id }) => (
+        {/* CENTER — NAV (DESKTOP) */}
+        <div className="hidden md:flex items-center gap-12 font-mono text-[11px] tracking-widest">
+          {NAV_ITEMS.map((item) => (
             <a
-              key={id}
-              href={`#${id}`}
-              className={`hover:text-primary transition-colors ${
-                activeSection === id ? "text-primary" : ""
-              }`}
+              key={item.label}
+              href={item.href}
+              className="
+              text-muted-foreground
+              cursor-pointer
+              underline underline-offset-4 decoration-dotted decoration-muted-foreground/60
+              hover:text-foreground
+              hover:decoration-foreground
+              hover:decoration-solid
+              transition-colors
+            "
             >
-              {label}
+              {item.label}
             </a>
           ))}
         </div>
 
-        {/* Right-side buttons */}
-        <div className="hidden md:flex items-center gap-4">
+        {/* RIGHT — PRIMARY ACTION + STATUS */}
+        <div className="hidden md:flex items-center gap-6 font-mono text-xs">
           <a
             href="/resume.pdf"
-            download
-            className="px-4 py-2 text-sm rounded bg-primary text-background hover:bg-primary/80"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="
+              px-4 py-1.5 rounded-md
+              bg-foreground text-background
+              tracking-widest text-[11px]
+              hover:opacity-90
+              transition
+            "
           >
-            Resume
+            SPEC_PDF
+          </a>
+          <a
+            href="https://github.com/Marx0xD"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="
+      tracking-widest text-[11px]
+      text-muted
+      hover:text-foreground
+      transition-colors
+    "
+          >
+            GITHUB
           </a>
 
-          <div className="flex gap-4 text-muted-foreground">
-            <a
-              href="https://github.com/israel0x7CF"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-primary"
-            >
-              <Github size={20} />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/israel-asefa-978529202/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-primary"
-            >
-              <Linkedin size={20} />
-            </a>
-            <a
-              href="mailto:israel.asefawm.mi1055@gmail.com"
-              className="hover:text-primary"
-            >
-              <Mail size={20} />
-            </a>
+          <div className="flex items-center gap-2 tracking-widest text-[10px]">
+            <span className="text-muted">STATUS</span>
+            <span className="text-[var(--state-ok)]">OPERATIONAL</span>
           </div>
         </div>
 
-        {/* Mobile Menu Toggle */}
+        {/* MOBILE TOGGLE */}
         <button
-          onClick={() => setMobileOpen((prev) => !prev)}
-          className="md:hidden text-muted-foreground"
+          onClick={() => setOpen((v) => !v)}
+          className="md:hidden text-muted"
+          aria-label="Toggle navigation"
         >
-          <Menu />
+          {open ? <X size={18} /> : <Menu size={18} />}
         </button>
       </div>
 
-      {/* Mobile Menu */}
-      {mobileOpen && (
-        <div className="md:hidden mt-4 flex flex-col gap-4 text-muted-foreground text-sm">
-          {[
-            { label: "About", id: "about" },
-            { label: "Experience", id: "experience" },
-            { label: "Skills", id: "skills" },
-            { label: "Projects", id: "projects" },
-          ].map(({ label, id }) => (
+      {/* MOBILE PANEL */}
+      {open && (
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.25 }}
+          className="
+          md:hidden border-t border-subtle
+          bg-background/95 backdrop-blur-md
+          px-6 py-6
+          font-mono text-xs
+          flex flex-col gap-6
+        "
+        >
+          {NAV_ITEMS.map((item) => (
             <a
-              key={id}
-              href={`#${id}`}
-              onClick={() => setMobileOpen(false)}
-              className={`hover:text-primary transition-colors ${
-                activeSection === id ? "text-primary" : ""
-              }`}
+              key={item.label}
+              href={item.href}
+              onClick={() => setOpen(false)}
+              className="
+                tracking-widest text-muted
+                hover:text-foreground transition-colors
+              "
             >
-              {label}
+              {item.label}
             </a>
           ))}
 
-          <a
-            href="/resume.pdf"
-            download
-            className="px-4 py-2 text-sm rounded bg-primary text-background hover:bg-primary/80"
-          >
-            Resume
-          </a>
-        </div>
+          <div className="pt-4 border-t border-subtle flex flex-col gap-4">
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="
+                inline-flex w-fit
+                px-4 py-1.5
+                bg-foreground text-background
+                rounded-md tracking-widest text-[11px]
+              "
+            >
+              SPEC_PDF
+            </a>
+            <a
+              href="https://github.com/YOUR_USERNAME"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="
+    text-muted hover:text-foreground
+    tracking-widest text-[11px]
+    transition-colors
+  "
+            >
+              GITHUB
+            </a>
+
+            <div className="flex items-center gap-2 tracking-widest text-[10px]">
+              <span className="text-muted">STATUS</span>
+              <span className="text-[var(--state-ok)]">OPERATIONAL</span>
+            </div>
+          </div>
+        </motion.div>
       )}
     </motion.nav>
   );

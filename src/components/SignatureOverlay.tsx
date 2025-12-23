@@ -28,7 +28,7 @@ export default function SignatureOverlay() {
       {show && (
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.95 }}
+          animate={{ opacity: 0.45 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-50 bg-background/95 backdrop-blur-md flex items-center justify-center text-center px-4"
         >

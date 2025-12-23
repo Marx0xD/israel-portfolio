@@ -1,96 +1,62 @@
 "use client";
 
+import { motion } from "framer-motion";
 import Navbar from "@/components/NavBar";
 import Hero from "@/components/Hero";
-import Skills from "@/components/Skills";
-import Contact from "@/components/Contact";
-import { motion } from "framer-motion";
+import Systems from "@/components/Systems";
+import Capabilities from "@/components/Capabilities";
+import FailureModes from "@/components/FailureModes";
 import ExperienceSection from "@/components/Experiences";
-// import ProjectsSection from "@/components/ProjectsSection";
+import Projects from "@/components/ProjectsSection";
+import Contact from "@/components/Contact";
 
-
-
-// Animation variants
-const containerVariants = {
+const container = {
   hidden: {},
   show: {
     transition: {
-      staggerChildren: 0.2,
+      staggerChildren: 0.08,
+      delayChildren: 0.1,
     },
   },
 };
-
-// const itemVariants = {
-//   hidden: { opacity: 0, y: 20 },
-//   show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-// };
 
 export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="flex flex-col space-y-3 py-16 px-8 max-w-6xl mx-auto bg-background/90 backdrop-blur-sm text-foreground mt-4">
 
-        {/* Hero Section */}
-        <motion.section
-          initial="hidden"
-          whileInView="show"
-          variants={containerVariants}
-          viewport={{ once: true, amount: 0.3 }}
-        >
-          <Hero />
-        </motion.section>
-
-        {/* About Section */}
-        <section id="about" className="space-y-6 pt-20 border-t border-border">
-       
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="space-y-6"
-            >
-              <h2 className="text-4xl font-bold text-primary">About Me</h2>
-              <p className="text-muted-foreground leading-relaxed">
-                I&apos;m a backend engineer and fullstack developer based in
-                Ethiopia. I specialize in building scalable systems with Spring
-                Boot and FastAPI, and modern frontends using Next.js and React.
-                <br />
-                <br />I am passionate about crafting robust APIs, optimizing
-                architectures, and working at the intersection of development
-                and DevOps.
-              </p>
-            </motion.div>
-          
-        </section>
-
-        {/* Experience Section */}
+      <motion.main
+        initial="hidden"
+        animate="show"
+        variants={container}
+        className="
+          mx-auto
+          max-w-7xl
+          px-6
+          pt-24
+          pb-32
+          bg-background
+          text-foreground
+        "
+      >
+        {/* CONTROL PLANE — HERO */}
+        <Hero />
+        <div className="mt-24 border-t border-subtle opacity-60" />
+        <Systems />
+        <Capabilities />
+        <FailureModes />
         <ExperienceSection />
-
-        {/* Skills Section */}
-        <motion.section
-          id="skills"
-          initial="hidden"
-          whileInView="show"
-          variants={containerVariants}
-          viewport={{ once: true, amount: 0.3 }}
-          className="pt-20 border-t border-border"
-        >
-          <Skills />
-        </motion.section>
-
-        {/* Contact Section */}
-        <motion.section
-          id="contact"
-          initial="hidden"
-          whileInView="show"
-          variants={containerVariants}
-          viewport={{ once: true, amount: 0.3 }}
-        >
-          <Contact />
-        </motion.section>
-      </main>
+        <Projects />
+        <Contact />
+        {/* SYSTEM FOOTER STRIP */}
+        <section className="mt-32 border-t border-subtle pt-8">
+          <div className="flex flex-col gap-2 font-mono text-xs text-muted">
+            <span>STATUS: OPERATIONAL</span>
+            <span>MODE: CONSTRAINT-DRIVEN</span>
+            <span>BUILT BY: MARX</span>
+          </div>
+        </section>
+      </motion.main>
     </>
   );
 }
