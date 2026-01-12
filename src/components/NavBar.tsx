@@ -155,7 +155,7 @@ export default function Navbar() {
               SPEC_PDF
             </a>
             <a
-              href="https://github.com/YOUR_USERNAME"
+              href="https://github.com/Marx0xD"
               target="_blank"
               rel="noopener noreferrer"
               className="
