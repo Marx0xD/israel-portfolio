@@ -14,105 +14,134 @@ import {
 gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
 
 const navItems = [
-  ["Intro", "#top"],
   ["Work", "#work"],
-  ["Skills", "#skills"],
   ["Experience", "#experience"],
+  ["About", "#about"],
   ["Contact", "#contact"],
 ];
 
-const capabilityGroups = [
+const skillGroups = [
   {
-    title: "Backend systems",
-    body: "Java, Spring Boot, Node.js, FastAPI, REST APIs, auth, service boundaries, and business workflows.",
+    title: "BACKEND",
+    body: "Java · Spring Boot · Python · FastAPI · Node.js · REST APIs",
   },
   {
-    title: "Distributed workflows",
-    body: "Kafka, async events, idempotent consumers, retries, job state, and failure-aware orchestration.",
+    title: "DATA",
+    body: "PostgreSQL · SQL · Hibernate/JPA · MySQL · MongoDB · Transaction modeling",
   },
   {
-    title: "Data and operations",
-    body: "PostgreSQL, migrations, indexing, Docker, CI/CD, deployment safety, and operational dashboards.",
+    title: "PAYMENTS & INTEGRATIONS",
+    body: "Stripe · Mastercard · Wallet systems · Webhooks · SMS · External APIs · Biometric devices",
+  },
+  {
+    title: "SYSTEMS",
+    body: "Kafka · Async workflows · API contracts · Authentication · Authorization · Runtime telemetry",
+  },
+  {
+    title: "DELIVERY",
+    body: "Docker · Unit tests · Integration tests · Git · Production support · Code review",
   },
 ];
 
 const projects = [
   {
     index: "01",
-    name: "Spectrum",
-    summary:
-      "A distributed instance orchestration platform for provisioning, managing, and operating SaaS environments safely.",
-    details: [
-      "Spring Boot control plane for API, auth, and job state",
-      "Kafka events for orchestration and worker coordination",
-      "PostgreSQL as the system of record with explicit state transitions",
-      "Secure callbacks, idempotent handling, and retry paths",
+    name: "Threadline",
+    metadata: "RUNTIME DIAGNOSTICS · FASTAPI · POSTGRESQL",
+    summary: "A debugging system built around runtime evidence instead of guesses.",
+    full: [
+      "Threadline collects events from running applications and reconstructs what a backend request actually did: where it started, which operations ran, what the database did, where it failed, and what evidence exists around the failure.",
+      "I built the ingestion pipeline, raw evidence storage, deterministic flow reconstruction, project authentication, and source-intelligence work that connects runtime behavior back to code.",
     ],
-    gradient: "linear-gradient(135deg, #FFC7DA 0%, #AEDDF7 100%)",
+    details: [
+      "EVENT INGESTION",
+      "FLOW RECONSTRUCTION",
+      "SOURCE INTELLIGENCE",
+      "DATABASE EVIDENCE",
+    ],
+    linkText: "View Threadline",
   },
   {
     index: "02",
-    name: "Payment and wallet systems",
-    summary:
-      "Backend services for financial workflows where correctness, auditability, and rollback paths matter.",
-    details: [
-      "Payment and wallet workflow design",
-      "Schema design, migrations, and transaction boundaries",
-      "Admin surfaces for operations and support teams",
-      "Defensive integration patterns for external services",
+    name: "Odoo Infrastructure Control Plane",
+    metadata: "INFRASTRUCTURE AUTOMATION · SPRING BOOT · PYTHON",
+    summary: "One place to provision, configure, and operate Odoo instances across remote servers.",
+    full: [
+      "A control plane for managing self-hosted Odoo deployments across remote Linux machines. Spring Boot owns hosts, instances, deployment actions, and operational state. A Python provisioning layer carries out SSH and Docker operations.",
+      "Credentials are encrypted at rest, deployment actions are tracked, and the backend remains the source of truth instead of leaving server state scattered across scripts and terminals.",
     ],
-    gradient: "linear-gradient(135deg, #AEDDF7 0%, #FFE29E 100%)",
+    details: [
+      "REMOTE HOSTS",
+      "ENCRYPTED SSH",
+      "DOCKER OPERATIONS",
+      "DEPLOYMENT STATE",
+    ],
+    linkText: "View project",
   },
   {
     index: "03",
-    name: "Identity and notifications",
-    summary:
-      "Production backend modules for authentication, identity services, event-driven notifications, and dashboards.",
-    details: [
-      "Authentication and identity services",
-      "Event-driven notification pipelines",
-      "Admin and operational dashboard APIs",
-      "Failure handling for duplicated and delayed events",
+    name: "Backend-Controlled Credit Ledger",
+    metadata: "PAYMENTS · SPRING BOOT · STRIPE",
+    summary: "A credit system that stopped trusting the browser.",
+    full: [
+      "I replaced a frontend-authoritative credit flow with a backend-controlled ledger and synchronization model. Credit calculation, balance checks, mutation rules, and sensitive actions moved into Spring Boot service workflows.",
+      "The release removed the class of inconsistencies that had been generating credit-related support tickets. Those tickets stopped after the new system went live.",
     ],
-    gradient: "linear-gradient(135deg, #FFE29E 0%, #FFC7DA 100%)",
+    details: [
+      "CREDIT LEDGER",
+      "STRIPE WEBHOOKS",
+      "BALANCE RULES",
+      "CONTENT OWNERSHIP",
+    ],
+    outcome: "CREDIT SUPPORT TICKETS: 0 POST-RELEASE",
+    linkText: "View project",
+  },
+  {
+    index: "04",
+    name: "Business Operations Systems",
+    metadata: "WORKFLOWS · PAYMENTS · POSTGRESQL",
+    summary: "Manual business processes turned into systems with explicit state, rules, and history.",
+    full: [
+      "At ETTA Solutions, I worked on tender approvals, internal transfers, Mastercard payment processing, wallet transactions, document verification, SMS notifications, and legacy CNET data migration.",
+      "The systems handled active business operations, so the backend had to account for approvals, payment state, operational records, failure cases, and production support after release.",
+    ],
+    details: [
+      "MASTERCARD",
+      "WALLET FLOWS",
+      "DOCUMENT VERIFICATION",
+      "APPROVAL WORKFLOWS",
+    ],
+    linkText: "View project",
   },
 ];
 
 const experience = [
   {
     company: "NiteShift Systems",
-    role: "Backend Engineer",
-    period: "Feb 2023 - Present",
-    text: "Owned backend modules for distributed products with real production usage.",
-    details: [
-      "Authentication and identity services",
-      "Event-driven notifications and workflows",
-      "Admin and operational dashboards",
-      "Schema design and migrations",
+    role: "JAVA BACKEND ENGINEER",
+    period: "FEB 2024 — PRESENT",
+    location: "REMOTE",
+    text: [
+      "Backend ownership across credits, Stripe payments, subscriptions, content ownership, authentication, admin workflows, and production support.",
+      "My largest change was moving credit authority out of the frontend and into a backend ledger with controlled mutation rules and balance checks.",
     ],
   },
   {
     company: "ETTA Solutions",
-    role: "Backend Engineer",
-    period: "Jun 2023 - Sep 2024",
-    text: "Built backend systems supporting financial, tender management, and SaaS deployment workflows.",
-    details: [
-      "Payment and wallet workflow design",
-      "Tender management backend services",
-      "SaaS server deployment and operations",
-      "Transaction boundaries and rollback paths",
+    role: "SOFTWARE ENGINEER · CONTRACT CONSULTANT",
+    period: "JUN 2023 — SEP 2024",
+    location: "ADDIS ABABA",
+    text: [
+      "Built business workflow and payment systems used in active operations, including tender management, internal transfers, Mastercard processing, wallet transactions, document verification, SMS services, and legacy data migration.",
     ],
   },
   {
     company: "Ahaz Software Solutions",
-    role: "Fullstack Developer",
-    period: "Feb 2021 - Dec 2022",
-    text: "Worked across React modernization, HRMS backend development, and Python biometric integrations.",
-    details: [
-      "Modernized legacy React codebases",
-      "HRMS backend development",
-      "Python biometric device integrations",
-      "Frontend and backend feature delivery",
+    role: "SOFTWARE ENGINEER",
+    period: "FEB 2021 — DEC 2022",
+    location: "ADDIS ABABA",
+    text: [
+      "Built HRMS and payroll APIs, automated ZKTeco biometric attendance ingestion, delivered Node.js services for field operations, and supported client systems through deployment and production debugging.",
     ],
   },
 ];
@@ -274,7 +303,7 @@ export default function Home() {
         "--page-wash": "#fff4cf",
         ease: "none",
         scrollTrigger: {
-          trigger: "#skills",
+          trigger: "#about",
           start: "clamp(top 72%)",
           end: "clamp(bottom 28%)",
           scrub: true,
@@ -286,6 +315,17 @@ export default function Home() {
         ease: "none",
         scrollTrigger: {
           trigger: "#experience",
+          start: "clamp(top 72%)",
+          end: "clamp(bottom 28%)",
+          scrub: true,
+        },
+      });
+
+      gsap.to(document.documentElement, {
+        "--page-wash": "#f5ecff",
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#skills",
           start: "clamp(top 72%)",
           end: "clamp(bottom 28%)",
           scrub: true,
@@ -674,8 +714,8 @@ export default function Home() {
               ))}
             </div>
 
-            <a className="nav-action" href="/resume.pdf" target="_blank">
-              Resume <ArrowUpRight size={15} />
+            <a className="nav-action" href="#contact">
+              Let’s talk <ArrowUpRight size={15} />
             </a>
           </nav>
 
@@ -725,7 +765,7 @@ export default function Home() {
             >
               <span>CASE FILE</span>
               <strong>Flow reconstruction</strong>
-              <small>TRACE 07</small>
+              <small>TRACE</small>
             </div>
 
             <div
@@ -735,7 +775,6 @@ export default function Home() {
             >
               <span>DB</span>
               <strong>Evidence store</strong>
-              <small>SYNCED</small>
             </div>
 
             <div
@@ -744,8 +783,8 @@ export default function Home() {
               data-depth-y="12"
             >
               <span>SOURCE</span>
-              <code>retryPolicy.resolve()</code>
-              <code>event.idempotent = true</code>
+              <code>INGESTION</code>
+              <code>TRACE</code>
             </div>
 
             <div
@@ -774,23 +813,26 @@ export default function Home() {
           <div className="hero-copy">
             <p className="eyebrow">BACKEND ENGINEER · ADDIS ABABA</p>
             <h1 className="hero-title">
-              Backend systems built
+              I build backend
               <br />
-              for production reality.
+              systems for the parts
+              <br />
+              that can’t be hand-waved.
             </h1>
             <p className="scroll-reveal-copy">
-              I build APIs, developer tools, runtime diagnostics, integrations,
-              and infrastructure systems that make complex software easier to
-              understand.
+              Payments, ledgers, APIs, integrations, and runtime diagnostics.
+              My work usually starts where state, failure, permissions, or
+              money enter the picture.
             </p>
             <div className="hero-actions">
               <a className="primary-link" href="#work">
                 View my work <ArrowUpRight size={18} />
               </a>
-              <a className="secondary-link" href="#skills">
+              <a className="secondary-link" href="#about">
                 About me <ArrowUpRight size={18} />
               </a>
             </div>
+            <p className="hero-status">OPEN TO REMOTE BACKEND ROLES</p>
           </div>
         </div>
       </section>
@@ -801,8 +843,13 @@ export default function Home() {
           <div className="section-heading">
             <span className="section-index">01</span>
             <div>
-              <p className="eyebrow">Selected work</p>
-              <h2 className="pop-heading">Systems with clear ownership and explicit failure paths.</h2>
+              <p className="eyebrow">SELECTED WORK</p>
+              <h2 className="pop-heading">Systems I’ve built and owned.</h2>
+              <p className="section-intro pop-copy">
+                Product backends, operational software, infrastructure tooling,
+                and one debugging system born out of being tired of guessing
+                what happened in production.
+              </p>
             </div>
           </div>
 
@@ -813,12 +860,24 @@ export default function Home() {
                 <div className="project-content pop-copy">
                   <span className="project-index">{project.index}</span>
                   <h3>{project.name}</h3>
+                  <p className="project-meta">{project.metadata}</p>
                   <p>{project.summary}</p>
-                  <ul>
+                  <div className="project-full">
+                    {project.full.map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
+                    ))}
+                  </div>
+                  <ul className="project-detail-labels">
                     {project.details.map((detail) => (
                       <li key={detail}>{detail}</li>
                     ))}
                   </ul>
+                  {project.outcome ? (
+                    <p className="project-outcome">{project.outcome}</p>
+                  ) : null}
+                  <a className="project-link" href="#contact">
+                    {project.linkText} <ArrowUpRight size={16} />
+                  </a>
                 </div>
               </article>
             ))}
@@ -826,25 +885,74 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="skills" className="section viewport-panel snap-section skills-section">
-        <div className="bubble bubble-skills" />
-        <div className="section-content">
+      <section id="about" className="section viewport-panel snap-section about-section text-section">
+        <div className="bubble bubble-about" />
+        <div className="section-content text-section-content">
           <div className="section-heading compact">
             <span className="section-index">02</span>
             <div>
-              <p className="eyebrow">What I bring</p>
-              <h2 className="pop-heading">Backend depth, distributed systems habits, and product-facing judgment.</h2>
+              <p className="eyebrow">ABOUT</p>
+              <h2 className="pop-heading">Most of my work lives behind the interface.</h2>
             </div>
           </div>
 
-          <div className="capability-grid">
-            {capabilityGroups.map((capability) => (
-              <article className="capability-card pop-copy" key={capability.title}>
-                <Sparkles size={20} />
-                <h3>{capability.title}</h3>
-                <p>{capability.body}</p>
-              </article>
-            ))}
+          <div className="body-copy pop-copy">
+            <p>
+              I’m Israel Asefa, a backend engineer based in Addis Ababa. I’ve
+              spent more than four years building payment flows, credit systems,
+              internal tools, data models, enterprise integrations, and
+              production APIs.
+            </p>
+            <p>
+              I do my best work when the problem has state, failure modes,
+              permissions, or money attached to it. That usually means deciding
+              where authority belongs, how changes are recorded, what happens
+              when an external service retries, and whether the system leaves
+              enough evidence to explain a failure later.
+            </p>
+            <p>
+              I care about where truth lives in software. Credit balances should
+              belong to the backend. Payment state should survive retries.
+              Production failures should leave evidence. That way of thinking
+              runs through my client work and through Threadline, the debugging
+              system I’m building.
+            </p>
+            <p className="meta-line">BSC COMPUTER SCIENCE · HILCOE · 2022</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="working-style" className="section viewport-panel snap-section style-section text-section">
+        <div className="bubble bubble-style" />
+        <div className="section-content text-section-content">
+          <div className="section-heading compact">
+            <span className="section-index">03</span>
+            <div>
+              <p className="eyebrow">HOW I WORK</p>
+              <h2 className="pop-heading">I like systems with a clear owner.</h2>
+            </div>
+          </div>
+
+          <div className="body-copy pop-copy">
+            <p>
+              Business rules belong somewhere deliberate. State changes need a
+              record. Sensitive actions need validation at the boundary that
+              controls them. When those decisions are vague, the bugs usually
+              show up later as support tickets, mismatched balances, missing
+              access, or production behavior nobody can explain.
+            </p>
+            <p>
+              I don’t treat debugging as cleanup after the real engineering is
+              done. Production behavior is part of the system. So are retries,
+              partial failures, stale state, bad input, and the awkward edge
+              cases that only appear after release.
+            </p>
+            <p>
+              I prefer backend work, though I can cross the stack when the
+              product needs it. My strongest contribution is usually the part
+              beneath the screen: the rules, data, integrations, APIs, and
+              operational behavior holding everything together.
+            </p>
           </div>
         </div>
       </section>
@@ -852,10 +960,10 @@ export default function Home() {
       <section id="experience" className="experience-section viewport-panel snap-section">
         <div className="experience-inner section-content">
           <div className="section-heading compact">
-            <span className="section-index">03</span>
+            <span className="section-index">04</span>
             <div>
-              <p className="eyebrow">Experience</p>
-              <h2 className="pop-heading">Practical engineering work across backend services, integrations, and operations.</h2>
+              <p className="eyebrow">EXPERIENCE</p>
+              <h2 className="pop-heading">Where I’ve worked.</h2>
             </div>
           </div>
 
@@ -868,17 +976,13 @@ export default function Home() {
                 <div className="timeline-content">
                   <div className="timeline-topline">
                     <span className="experience-date">{item.period}</span>
-                    <strong>{item.company}</strong>
+                    <strong>{item.location}</strong>
                   </div>
-                  <h3>{item.role}</h3>
-                  <p>{item.text}</p>
-                  <div className="timeline-detail-grid">
-                    <ul>
-                      {item.details.map((detail) => (
-                        <li key={detail}>{detail}</li>
-                      ))}
-                    </ul>
-                  </div>
+                  <h3>{item.company}</h3>
+                  <p className="timeline-role">{item.role}</p>
+                  {item.text.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
                 </div>
               </article>
             ))}
@@ -886,21 +990,73 @@ export default function Home() {
         </div>
       </section>
 
+      <section id="skills" className="section viewport-panel snap-section skills-section">
+        <div className="bubble bubble-skills" />
+        <div className="section-content">
+          <div className="section-heading compact">
+            <span className="section-index">05</span>
+            <div>
+              <p className="eyebrow">TOOLS I WORK WITH</p>
+              <h2 className="pop-heading">Backend first. Close to the system.</h2>
+            </div>
+          </div>
+
+          <div className="capability-grid">
+            {skillGroups.map((capability) => (
+              <article className="capability-card pop-copy" key={capability.title}>
+                <Sparkles size={20} />
+                <h3>{capability.title}</h3>
+                <p>{capability.body}</p>
+              </article>
+            ))}
+          </div>
+          <p className="skill-note pop-copy">
+            I choose tools based on the system in front of me. The harder
+            questions usually concern ownership, state, failure, and recovery
+            rather than framework preference.
+          </p>
+        </div>
+      </section>
+
       <section id="contact" className="section viewport-panel snap-section contact-section">
         <div className="bubble bubble-contact" />
         <div className="section-content">
-          <p className="eyebrow">Contact</p>
-          <h2 className="pop-heading">Need a backend engineer who can own the hard parts without making them mysterious?</h2>
+          <p className="eyebrow">CONTACT</p>
+          <h2 className="pop-heading">Have a backend problem that needs an owner?</h2>
+          <p className="contact-copy pop-copy">
+            I’m open to remote backend roles and contract work involving APIs,
+            payments, integrations, internal systems, developer tooling, or
+            production reliability.
+          </p>
+          <p className="availability">AVAILABLE FOR REMOTE WORK</p>
           <div className="contact-actions">
             <a className="primary-link" href="mailto:israel.asefawm.mi1055@gmail.com">
-              <Mail size={18} /> israel.asefawm.mi1055@gmail.com
+              <Mail size={18} /> Email me
             </a>
-            <a className="secondary-link" href="/resume.pdf" target="_blank">
-              Resume <ArrowUpRight size={18} />
+            <a
+              className="secondary-link"
+              href="https://www.linkedin.com/in/israel-asefa"
+              target="_blank"
+            >
+              LinkedIn <ArrowUpRight size={18} />
             </a>
           </div>
+          <p className="email-line">israel.asefawm.mi1055@gmail.com</p>
         </div>
       </section>
+
+      <footer className="site-footer snap-section">
+        <div>
+          <strong>Israel Asefa</strong>
+          <span>Backend Engineer · Addis Ababa</span>
+        </div>
+        <nav aria-label="Footer navigation">
+          <a href="#work">Work</a>
+          <a href="https://www.linkedin.com/in/israel-asefa" target="_blank">LinkedIn</a>
+          <a href="mailto:israel.asefawm.mi1055@gmail.com">Email</a>
+        </nav>
+        <p>BUILT WITH CARE, TESTED AGAINST REAL CONTENT.</p>
+      </footer>
     </main>
   );
 }

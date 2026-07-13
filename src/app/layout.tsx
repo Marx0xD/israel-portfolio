@@ -17,7 +17,7 @@ const jetBrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Israel Asefa",
   description:
-    "Backend engineer building Java, Node.js, PostgreSQL, Kafka, and distributed systems.",
+    "Backend engineer building payments, ledgers, APIs, integrations, and runtime diagnostics.",
 };
 
 export default function RootLayout({
