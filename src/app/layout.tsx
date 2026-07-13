@@ -17,7 +17,7 @@ const jetBrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Israel Asefa",
   description:
-    "Backend engineer building payments, ledgers, APIs, integrations, and runtime diagnostics.",
+    "Backend engineer for systems where mistakes have consequences: payments, balances, permissions, integrations, operations, and production failures.",
 };
 
 export default function RootLayout({

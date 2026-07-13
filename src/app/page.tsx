@@ -22,96 +22,129 @@ const navItems = [
 
 const skillGroups = [
   {
-    title: "BACKEND",
-    body: "Java · Spring Boot · Python · FastAPI · Node.js · REST APIs",
+    title: "Backend systems",
+    body: "Java, Spring Boot, Python, FastAPI, Node.js, REST APIs, authentication, authorization, business rules, and service boundaries.",
   },
   {
-    title: "DATA",
-    body: "PostgreSQL · SQL · Hibernate/JPA · MySQL · MongoDB · Transaction modeling",
+    title: "Data and state",
+    body: "PostgreSQL, SQL, Hibernate/JPA, MySQL, MongoDB, relational modeling, transactions, ledgers, ownership records, and operational history.",
   },
   {
-    title: "PAYMENTS & INTEGRATIONS",
-    body: "Stripe · Mastercard · Wallet systems · Webhooks · SMS · External APIs · Biometric devices",
+    title: "Payments and integrations",
+    body: "Stripe, Mastercard, wallet systems, webhooks, SMS services, external APIs, biometric devices, and legacy data migration.",
   },
   {
-    title: "SYSTEMS",
-    body: "Kafka · Async workflows · API contracts · Authentication · Authorization · Runtime telemetry",
-  },
-  {
-    title: "DELIVERY",
-    body: "Docker · Unit tests · Integration tests · Git · Production support · Code review",
+    title: "Runtime and delivery",
+    body: "Kafka, asynchronous workflows, Docker, unit tests, integration tests, code reviews, deployment support, and production debugging.",
   },
 ];
 
 const projects = [
   {
     index: "01",
+    name: "Credit Ledger",
+    metadata: "NITESHIFT SYSTEMS · SPRING BOOT · STRIPE",
+    title: "I stopped the browser from deciding how much credit a user had.",
+    summary: "The old credit flow trusted frontend state. That made balance logic easy to desynchronize and hard to support.",
+    full: [
+      "I rebuilt it around a backend-controlled ledger. Credit calculation, mutation rules, available-balance checks, and sensitive actions moved into Spring Boot service workflows.",
+      "The work went beyond moving a few checks into an API.",
+      "I had to decide where credit authority lived, how purchases and subscriptions affected access, which actions could mutate a balance, and how the backend would stay consistent when Stripe events, user actions, and content ownership crossed paths.",
+      "The result was a system with one owner for credit state and a much smaller class of failures.",
+    ],
+    details: [
+      "CREDIT LEDGER",
+      "STRIPE CHECKOUT",
+      "WEBHOOKS",
+      "BALANCE RULES",
+      "CONTENT OWNERSHIP",
+      "POSTGRESQL",
+    ],
+    outcome: "Credit-related support tickets dropped to zero after release.",
+    linkText: "Talk about backend ownership",
+  },
+  {
+    index: "02",
     name: "Threadline",
     metadata: "RUNTIME DIAGNOSTICS · FASTAPI · POSTGRESQL",
-    summary: "A debugging system built around runtime evidence instead of guesses.",
+    title: "Threadline turns backend execution into evidence.",
+    summary: "Threadline collects runtime events and reconstructs what a request actually did.",
     full: [
-      "Threadline collects events from running applications and reconstructs what a backend request actually did: where it started, which operations ran, what the database did, where it failed, and what evidence exists around the failure.",
-      "I built the ingestion pipeline, raw evidence storage, deterministic flow reconstruction, project authentication, and source-intelligence work that connects runtime behavior back to code.",
+      "It orders events, detects request start and completion, builds operation trees, summarizes database activity, extracts errors, and produces a case file that can be inspected without guessing from scattered logs.",
+      "I am building Threadline around a simple belief: production failures should leave enough evidence to explain themselves.",
+      "The system includes SDK telemetry, ingestion, raw event storage, deterministic flow reconstruction, project authentication, and source intelligence that connects runtime behavior back to code.",
+      "Threadline is also proof of how I think. I care about causality, system state, boundaries, and whether an engineer can answer “what happened?” after the fact.",
     ],
     details: [
       "EVENT INGESTION",
       "FLOW RECONSTRUCTION",
+      "DB EVIDENCE",
       "SOURCE INTELLIGENCE",
-      "DATABASE EVIDENCE",
+      "CASE FILES",
+      "FASTAPI",
     ],
     linkText: "View Threadline",
   },
   {
-    index: "02",
-    name: "Odoo Infrastructure Control Plane",
+    index: "03",
+    name: "Odoo Control Plane",
     metadata: "INFRASTRUCTURE AUTOMATION · SPRING BOOT · PYTHON",
-    summary: "One place to provision, configure, and operate Odoo instances across remote servers.",
+    title: "One control plane for Odoo instances spread across remote servers.",
+    summary: "I designed a system for registering hosts, provisioning Odoo instances, managing deployment actions, and tracking operational state without relying on loose scripts and terminal history.",
     full: [
-      "A control plane for managing self-hosted Odoo deployments across remote Linux machines. Spring Boot owns hosts, instances, deployment actions, and operational state. A Python provisioning layer carries out SSH and Docker operations.",
-      "Credentials are encrypted at rest, deployment actions are tracked, and the backend remains the source of truth instead of leaving server state scattered across scripts and terminals.",
+      "Spring Boot owns the system state. A Python provisioning layer performs SSH and Docker operations on remote Linux hosts.",
+      "The platform handles encrypted SSH credentials, Odoo and PostgreSQL services, deployment actions, configuration, and instance lifecycle commands such as start, stop, and update.",
+      "This project sits where backend engineering, infrastructure, and operational safety meet.",
     ],
     details: [
       "REMOTE HOSTS",
       "ENCRYPTED SSH",
-      "DOCKER OPERATIONS",
+      "DOCKER",
       "DEPLOYMENT STATE",
+      "SPRING BOOT",
+      "PYTHON",
     ],
-    linkText: "View project",
-  },
-  {
-    index: "03",
-    name: "Backend-Controlled Credit Ledger",
-    metadata: "PAYMENTS · SPRING BOOT · STRIPE",
-    summary: "A credit system that stopped trusting the browser.",
-    full: [
-      "I replaced a frontend-authoritative credit flow with a backend-controlled ledger and synchronization model. Credit calculation, balance checks, mutation rules, and sensitive actions moved into Spring Boot service workflows.",
-      "The release removed the class of inconsistencies that had been generating credit-related support tickets. Those tickets stopped after the new system went live.",
-    ],
-    details: [
-      "CREDIT LEDGER",
-      "STRIPE WEBHOOKS",
-      "BALANCE RULES",
-      "CONTENT OWNERSHIP",
-    ],
-    outcome: "CREDIT SUPPORT TICKETS: 0 POST-RELEASE",
     linkText: "View project",
   },
   {
     index: "04",
-    name: "Business Operations Systems",
-    metadata: "WORKFLOWS · PAYMENTS · POSTGRESQL",
-    summary: "Manual business processes turned into systems with explicit state, rules, and history.",
+    name: "Business Systems",
+    metadata: "ETTA SOLUTIONS · PAYMENTS · OPERATIONS",
+    title: "I turned manual business processes into systems with explicit rules and history.",
+    summary: "At ETTA Solutions, I worked across tender management, internal transfers, Mastercard payment processing, digital wallet flows, document verification, SMS services, and legacy CNET data migration.",
     full: [
-      "At ETTA Solutions, I worked on tender approvals, internal transfers, Mastercard payment processing, wallet transactions, document verification, SMS notifications, and legacy CNET data migration.",
-      "The systems handled active business operations, so the backend had to account for approvals, payment state, operational records, failure cases, and production support after release.",
+      "These systems were used in active business operations. That meant approval state, payment status, operational records, retries, data integrity, and support after release all mattered.",
+      "I also delivered an ERCA-compliant document signature and verification service that used hashing-based checks to detect tampering.",
     ],
     details: [
       "MASTERCARD",
       "WALLET FLOWS",
+      "APPROVALS",
       "DOCUMENT VERIFICATION",
-      "APPROVAL WORKFLOWS",
+      "SMS",
+      "DATA MIGRATION",
     ],
     linkText: "View project",
+  },
+  {
+    index: "05",
+    name: "Early Engineering",
+    metadata: "AHAZ SOFTWARE SOLUTIONS · HRMS · INTEGRATIONS",
+    title: "I learned backend engineering inside systems people depended on every day.",
+    summary: "At Ahaz, I built HRMS and payroll APIs, automated ZKTeco biometric attendance ingestion, and delivered Node.js services for employee attendance, site allocation, and field operations.",
+    full: [
+      "The work included data normalization, payroll logic, deployment support, and production debugging for client systems.",
+      "That period gave me a practical bias I still carry: software is not finished when the endpoint returns 200. It is finished when the surrounding workflow works.",
+    ],
+    details: [
+      "HRMS",
+      "PAYROLL",
+      "ATTENDANCE",
+      "BIOMETRIC INGESTION",
+      "NODE.JS",
+      "PRODUCTION DEBUGGING",
+    ],
+    linkText: "Talk about systems work",
   },
 ];
 
@@ -122,8 +155,8 @@ const experience = [
     period: "FEB 2024 — PRESENT",
     location: "REMOTE",
     text: [
-      "Backend ownership across credits, Stripe payments, subscriptions, content ownership, authentication, admin workflows, and production support.",
-      "My largest change was moving credit authority out of the frontend and into a backend ledger with controlled mutation rules and balance checks.",
+      "Owned backend work across credits, Stripe payments, subscriptions, purchases, content ownership, authentication, admin workflows, and production support.",
+      "The largest change was replacing frontend-authoritative credit logic with a backend-controlled ledger and synchronization model.",
     ],
   },
   {
@@ -132,7 +165,8 @@ const experience = [
     period: "JUN 2023 — SEP 2024",
     location: "ADDIS ABABA",
     text: [
-      "Built business workflow and payment systems used in active operations, including tender management, internal transfers, Mastercard processing, wallet transactions, document verification, SMS services, and legacy data migration.",
+      "Built payment, procurement, transfer, verification, and internal operations systems used by active businesses.",
+      "Worked with Mastercard processing, digital wallets, SMS services, PostgreSQL workflows, and legacy data migration.",
     ],
   },
   {
@@ -141,9 +175,17 @@ const experience = [
     period: "FEB 2021 — DEC 2022",
     location: "ADDIS ABABA",
     text: [
-      "Built HRMS and payroll APIs, automated ZKTeco biometric attendance ingestion, delivered Node.js services for field operations, and supported client systems through deployment and production debugging.",
+      "Built HRMS, payroll, attendance, and field-operation APIs.",
+      "Automated biometric device ingestion and supported client systems through deployment, debugging, and production use.",
     ],
   },
+];
+
+const valuePoints = [
+  "I move authority out of fragile clients and into controlled backend workflows.",
+  "I design state changes so balances, ownership, approvals, and payment status stay consistent.",
+  "I work across APIs, databases, webhooks, background flows, external services, and production support.",
+  "I do not treat release day as the end of the engineering work.",
 ];
 
 const tileOffsets = [
@@ -813,26 +855,70 @@ export default function Home() {
           <div className="hero-copy">
             <p className="eyebrow">BACKEND ENGINEER · ADDIS ABABA</p>
             <h1 className="hero-title">
-              I build backend
+              I build backend systems
               <br />
-              systems for the parts
+              that hold up when money, state,
               <br />
-              that can’t be hand-waved.
+              and production pressure enter the room.
             </h1>
             <p className="scroll-reveal-copy">
-              Payments, ledgers, APIs, integrations, and runtime diagnostics.
-              My work usually starts where state, failure, permissions, or
-              money enter the picture.
+              I’m Israel Asefa. I design APIs, payment flows, ledgers,
+              integrations, and internal systems where the backend has to be the
+              source of truth.
+            </p>
+            <p className="hero-support-copy">
+              I’ve spent more than four years turning fragile workflows into
+              controlled systems, fixing production failures, and building
+              software that can explain what happened after something goes
+              wrong.
             </p>
             <div className="hero-actions">
               <a className="primary-link" href="#work">
                 View my work <ArrowUpRight size={18} />
               </a>
-              <a className="secondary-link" href="#about">
-                About me <ArrowUpRight size={18} />
+              <a className="secondary-link" href="#contact">
+                Talk to me <ArrowUpRight size={18} />
               </a>
             </div>
             <p className="hero-status">OPEN TO REMOTE BACKEND ROLES</p>
+            <p className="credibility-strip">
+              4+ YEARS · SPRING BOOT · FASTAPI · NODE.JS · POSTGRESQL ·
+              PAYMENTS · PRODUCTION SYSTEMS
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="why" className="section viewport-panel snap-section value-section text-section">
+        <div className="bubble bubble-about" />
+        <div className="section-content text-section-content">
+          <div className="section-heading compact">
+            <span className="section-index">01</span>
+            <div>
+              <p className="eyebrow">WHY ISRAEL</p>
+              <h2 className="pop-heading">Bring me in when the backend needs an owner.</h2>
+            </div>
+          </div>
+
+          <div className="body-copy pop-copy">
+            <p>Some backend work is routine. Mine usually starts after the easy part.</p>
+            <p>
+              A balance is wrong. A payment completed but access was never
+              granted. Two systems disagree about the same user. A manual
+              process has become too expensive to keep running. Production
+              failed, and the logs do not explain why.
+            </p>
+            <p>That is the work I am built for.</p>
+            <p>
+              I trace the real source of truth, move important rules to the
+              right boundary, model the state properly, and leave the system
+              easier to reason about than I found it.
+            </p>
+            <ul className="value-list">
+              {valuePoints.map((point) => (
+                <li key={point}>{point}</li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
@@ -841,14 +927,15 @@ export default function Home() {
         <div className="bubble bubble-work" />
         <div className="section-content">
           <div className="section-heading">
-            <span className="section-index">01</span>
+            <span className="section-index">02</span>
             <div>
-              <p className="eyebrow">SELECTED WORK</p>
-              <h2 className="pop-heading">Systems I’ve built and owned.</h2>
+              <p className="eyebrow">PROOF</p>
+              <h2 className="pop-heading">The work behind the claim.</h2>
               <p className="section-intro pop-copy">
-                Product backends, operational software, infrastructure tooling,
-                and one debugging system born out of being tired of guessing
-                what happened in production.
+                These are not demo projects built to fill a grid. They come
+                from payment systems, business operations, infrastructure
+                automation, and a debugging product I started because guessing
+                about production behavior was not good enough.
               </p>
             </div>
           </div>
@@ -859,8 +946,8 @@ export default function Home() {
                 <ShatterPanel name={project.name} />
                 <div className="project-content pop-copy">
                   <span className="project-index">{project.index}</span>
-                  <h3>{project.name}</h3>
                   <p className="project-meta">{project.metadata}</p>
+                  <h3>{project.title}</h3>
                   <p>{project.summary}</p>
                   <div className="project-full">
                     {project.full.map((paragraph) => (
@@ -889,33 +976,35 @@ export default function Home() {
         <div className="bubble bubble-about" />
         <div className="section-content text-section-content">
           <div className="section-heading compact">
-            <span className="section-index">02</span>
+            <span className="section-index">03</span>
             <div>
-              <p className="eyebrow">ABOUT</p>
-              <h2 className="pop-heading">Most of my work lives behind the interface.</h2>
+              <p className="eyebrow">ABOUT ISRAEL</p>
+              <h2 className="pop-heading">I care about where truth lives in a system.</h2>
             </div>
           </div>
 
           <div className="body-copy pop-copy">
+            <p>I’m a backend engineer based in Addis Ababa, Ethiopia.</p>
             <p>
-              I’m Israel Asefa, a backend engineer based in Addis Ababa. I’ve
-              spent more than four years building payment flows, credit systems,
-              internal tools, data models, enterprise integrations, and
-              production APIs.
+              My work tends to cluster around payments, ledgers, operational
+              workflows, integrations, runtime behavior, and the awkward
+              failures that appear after software meets real users.
             </p>
             <p>
-              I do my best work when the problem has state, failure modes,
-              permissions, or money attached to it. That usually means deciding
-              where authority belongs, how changes are recorded, what happens
-              when an external service retries, and whether the system leaves
-              enough evidence to explain a failure later.
+              I like systems with clear authority. Credit belongs to the
+              backend. Payment state has to survive retries. Sensitive actions
+              need validation at the boundary that controls them. Production
+              failures should leave evidence.
             </p>
             <p>
-              I care about where truth lives in software. Credit balances should
-              belong to the backend. Payment state should survive retries.
-              Production failures should leave evidence. That way of thinking
-              runs through my client work and through Threadline, the debugging
-              system I’m building.
+              That way of thinking runs through my client work and the products
+              I build for myself.
+            </p>
+            <p>
+              I can work across the stack, but my strongest contribution is
+              beneath the interface: business rules, APIs, data models,
+              integrations, and the operational behavior holding the product
+              together.
             </p>
             <p className="meta-line">BSC COMPUTER SCIENCE · HILCOE · 2022</p>
           </div>
@@ -926,32 +1015,27 @@ export default function Home() {
         <div className="bubble bubble-style" />
         <div className="section-content text-section-content">
           <div className="section-heading compact">
-            <span className="section-index">03</span>
+            <span className="section-index">04</span>
             <div>
               <p className="eyebrow">HOW I WORK</p>
-              <h2 className="pop-heading">I like systems with a clear owner.</h2>
+              <h2 className="pop-heading">Clear ownership. Explicit state. Evidence when things fail.</h2>
             </div>
           </div>
 
           <div className="body-copy pop-copy">
+            <p>I start by finding the real authority in the system.</p>
             <p>
-              Business rules belong somewhere deliberate. State changes need a
-              record. Sensitive actions need validation at the boundary that
-              controls them. When those decisions are vague, the bugs usually
-              show up later as support tickets, mismatched balances, missing
-              access, or production behavior nobody can explain.
+              Who owns the balance? Which service decides access? What happens
+              when a webhook arrives twice? Can a partial failure leave two
+              databases telling different stories? Will someone understand this
+              incident six months from now?
             </p>
+            <p>Those questions shape the design.</p>
             <p>
-              I don’t treat debugging as cleanup after the real engineering is
-              done. Production behavior is part of the system. So are retries,
-              partial failures, stale state, bad input, and the awkward edge
-              cases that only appear after release.
-            </p>
-            <p>
-              I prefer backend work, though I can cross the stack when the
-              product needs it. My strongest contribution is usually the part
-              beneath the screen: the rules, data, integrations, APIs, and
-              operational behavior holding everything together.
+              I prefer small, explicit boundaries over hidden behavior. I test
+              failure paths, not only happy paths. I stay close to production
+              because the real system is the one users are touching, not the one
+              imagined in a ticket.
             </p>
           </div>
         </div>
@@ -960,10 +1044,10 @@ export default function Home() {
       <section id="experience" className="experience-section viewport-panel snap-section">
         <div className="experience-inner section-content">
           <div className="section-heading compact">
-            <span className="section-index">04</span>
+            <span className="section-index">05</span>
             <div>
               <p className="eyebrow">EXPERIENCE</p>
-              <h2 className="pop-heading">Where I’ve worked.</h2>
+              <h2 className="pop-heading">Four years of backend work under real business constraints.</h2>
             </div>
           </div>
 
@@ -994,10 +1078,14 @@ export default function Home() {
         <div className="bubble bubble-skills" />
         <div className="section-content">
           <div className="section-heading compact">
-            <span className="section-index">05</span>
+            <span className="section-index">06</span>
             <div>
-              <p className="eyebrow">TOOLS I WORK WITH</p>
-              <h2 className="pop-heading">Backend first. Close to the system.</h2>
+              <p className="eyebrow">WHAT YOU GET</p>
+              <h2 className="pop-heading">Backend range without vague ownership.</h2>
+              <p className="section-intro pop-copy">
+                I am most useful when the job crosses more than one layer and
+                still needs one person to understand the whole flow.
+              </p>
             </div>
           </div>
 
@@ -1011,9 +1099,8 @@ export default function Home() {
             ))}
           </div>
           <p className="skill-note pop-copy">
-            I choose tools based on the system in front of me. The harder
-            questions usually concern ownership, state, failure, and recovery
-            rather than framework preference.
+            Frameworks change. The harder work is deciding who owns the state,
+            what can fail, and how the system recovers.
           </p>
         </div>
       </section>
@@ -1021,24 +1108,28 @@ export default function Home() {
       <section id="contact" className="section viewport-panel snap-section contact-section">
         <div className="bubble bubble-contact" />
         <div className="section-content">
-          <p className="eyebrow">CONTACT</p>
-          <h2 className="pop-heading">Have a backend problem that needs an owner?</h2>
+          <p className="eyebrow">WORK WITH ISRAEL</p>
+          <h2 className="pop-heading">Need someone who can take ownership of the backend, not just close tickets?</h2>
           <p className="contact-copy pop-copy">
-            I’m open to remote backend roles and contract work involving APIs,
-            payments, integrations, internal systems, developer tooling, or
-            production reliability.
+            I’m open to remote backend roles and selected contract work.
           </p>
-          <p className="availability">AVAILABLE FOR REMOTE WORK</p>
+          <p className="contact-copy pop-copy">
+            The best fit is a product dealing with payments, internal
+            operations, integrations, developer tooling, infrastructure, or
+            production reliability. Give me a system with real state and real
+            consequences. That is where I do my best work.
+          </p>
+          <p className="availability">AVAILABLE FOR REMOTE BACKEND WORK</p>
           <div className="contact-actions">
             <a className="primary-link" href="mailto:israel.asefawm.mi1055@gmail.com">
-              <Mail size={18} /> Email me
+              <Mail size={18} /> Email Israel
             </a>
             <a
               className="secondary-link"
               href="https://www.linkedin.com/in/israel-asefa"
               target="_blank"
             >
-              LinkedIn <ArrowUpRight size={18} />
+              View LinkedIn <ArrowUpRight size={18} />
             </a>
           </div>
           <p className="email-line">israel.asefawm.mi1055@gmail.com</p>
@@ -1048,14 +1139,15 @@ export default function Home() {
       <footer className="site-footer snap-section">
         <div>
           <strong>Israel Asefa</strong>
-          <span>Backend Engineer · Addis Ababa</span>
+          <span>BACKEND ENGINEER · ADDIS ABABA</span>
         </div>
         <nav aria-label="Footer navigation">
           <a href="#work">Work</a>
+          <a href="#experience">Experience</a>
           <a href="https://www.linkedin.com/in/israel-asefa" target="_blank">LinkedIn</a>
           <a href="mailto:israel.asefawm.mi1055@gmail.com">Email</a>
         </nav>
-        <p>BUILT WITH CARE, TESTED AGAINST REAL CONTENT.</p>
+        <p>Built around real work, not portfolio filler.</p>
       </footer>
     </main>
   );
