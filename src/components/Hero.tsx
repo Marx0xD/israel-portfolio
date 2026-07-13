@@ -1,8 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 
-const line = {
+const line: Variants = {
   hidden: { opacity: 0, y: 8 },
   show: {
     opacity: 1,

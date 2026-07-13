@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -10,6 +10,13 @@ import {
   Mail,
   Sparkles,
 } from "lucide-react";
+import { BackendOwnershipDiagram } from "../components/diagrams/BackendOwnershipDiagram";
+import { BusinessWorkflowDiagram } from "../components/diagrams/BusinessWorkflowDiagram";
+import { CreditLedgerDiagram } from "../components/diagrams/CreditLedgerDiagram";
+import { EarlyEngineeringDiagram } from "../components/diagrams/EarlyEngineeringDiagram";
+import { EngineeringLoopDiagram } from "../components/diagrams/EngineeringLoopDiagram";
+import { OdooControlPlaneDiagram } from "../components/diagrams/OdooControlPlaneDiagram";
+import { ThreadlineEvidenceDiagram } from "../components/diagrams/ThreadlineEvidenceDiagram";
 
 gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
 
@@ -44,6 +51,7 @@ const projects = [
     index: "01",
     name: "Credit Ledger",
     metadata: "NITESHIFT SYSTEMS · SPRING BOOT · STRIPE",
+    diagram: "credit",
     title: "I stopped the browser from deciding how much credit a user had.",
     summary: "The old credit flow trusted frontend state. That made balance logic easy to desynchronize and hard to support.",
     full: [
@@ -67,6 +75,7 @@ const projects = [
     index: "02",
     name: "Threadline",
     metadata: "RUNTIME DIAGNOSTICS · FASTAPI · POSTGRESQL",
+    diagram: "threadline",
     title: "Threadline turns backend execution into evidence.",
     summary: "Threadline collects runtime events and reconstructs what a request actually did.",
     full: [
@@ -89,6 +98,7 @@ const projects = [
     index: "03",
     name: "Odoo Control Plane",
     metadata: "INFRASTRUCTURE AUTOMATION · SPRING BOOT · PYTHON",
+    diagram: "odoo",
     title: "One control plane for Odoo instances spread across remote servers.",
     summary: "I designed a system for registering hosts, provisioning Odoo instances, managing deployment actions, and tracking operational state without relying on loose scripts and terminal history.",
     full: [
@@ -110,6 +120,7 @@ const projects = [
     index: "04",
     name: "Business Systems",
     metadata: "ETTA SOLUTIONS · PAYMENTS · OPERATIONS",
+    diagram: "business",
     title: "I turned manual business processes into systems with explicit rules and history.",
     summary: "At ETTA Solutions, I worked across tender management, internal transfers, Mastercard payment processing, digital wallet flows, document verification, SMS services, and legacy CNET data migration.",
     full: [
@@ -130,6 +141,7 @@ const projects = [
     index: "05",
     name: "Early Engineering",
     metadata: "AHAZ SOFTWARE SOLUTIONS · HRMS · INTEGRATIONS",
+    diagram: "early",
     title: "I learned backend engineering inside systems people depended on every day.",
     summary: "At Ahaz, I built HRMS and payroll APIs, automated ZKTeco biometric attendance ingestion, and delivered Node.js services for employee attendance, site allocation, and field operations.",
     full: [
@@ -181,56 +193,21 @@ const experience = [
   },
 ];
 
-const valuePoints = [
-  "I move authority out of fragile clients and into controlled backend workflows.",
-  "I design state changes so balances, ownership, approvals, and payment status stay consistent.",
-  "I work across APIs, databases, webhooks, background flows, external services, and production support.",
-  "I do not treat release day as the end of the engineering work.",
-];
+type ProjectDiagramKind = "credit" | "threadline" | "odoo" | "business" | "early";
 
-const tileOffsets = [
-  [-44, 34, -9],
-  [28, -38, 7],
-  [52, 18, 12],
-  [-30, -24, -6],
-  [18, 42, 8],
-  [-54, -12, -13],
-  [38, 28, 10],
-  [-22, 46, -8],
-  [44, -30, 12],
-  [-38, 20, -11],
-  [20, -44, 6],
-  [-48, -28, -7],
-];
-
-function ShatterPanel({ name }: { name: string }) {
-  const tiles = useMemo(() => Array.from({ length: 12 }), []);
-
-  return (
-    <div className="shatter-panel" aria-hidden="true">
-      {tiles.map((_, tile) => {
-        const col = tile % 4;
-        const row = Math.floor(tile / 4);
-        const [x, y, rotation] = tileOffsets[tile];
-
-        return (
-          <span
-            className="shatter-tile"
-            key={`${name}-${tile}`}
-            data-x={x}
-            data-y={y}
-            data-rotation={rotation}
-            style={{
-              backgroundImage: "linear-gradient(135deg, var(--card-from), var(--card-to))",
-              backgroundSize: "400% 300%",
-              backgroundPosition: `calc(${col * 33.333}% + var(--card-shift, 0%)) ${row * 50}%`,
-            }}
-          />
-        );
-      })}
-      <span className="shatter-label">{name}</span>
-    </div>
-  );
+function ProjectVisual({ kind }: { kind: ProjectDiagramKind }) {
+  switch (kind) {
+    case "credit":
+      return <CreditLedgerDiagram />;
+    case "threadline":
+      return <ThreadlineEvidenceDiagram />;
+    case "odoo":
+      return <OdooControlPlaneDiagram />;
+    case "business":
+      return <BusinessWorkflowDiagram />;
+    case "early":
+      return <EarlyEngineeringDiagram />;
+  }
 }
 
 export default function Home() {
@@ -243,16 +220,18 @@ export default function Home() {
       ).matches;
 
       if (reduceMotion) {
-        gsap.set(".shatter-tile", {
-          opacity: 1,
-          x: 0,
-          y: 0,
-          rotate: 0,
-        });
         gsap.set(".hero-title, .hero-illustration, .system-layer, .system-code, .timeline-item", {
           opacity: 1,
           y: 0,
           scale: 1,
+        });
+        gsap.set(".project-card, .project-visual-frame, .project-content, .project-detail-labels li", {
+          opacity: 1,
+          x: 0,
+          y: 0,
+          rotate: 0,
+          scale: 1,
+          clipPath: "inset(0% 0% 0% 0%)",
         });
         gsap.set(".viewport-panel, .section-content", {
           opacity: 1,
@@ -430,19 +409,6 @@ export default function Home() {
               scrub: 1,
             },
           });
-        });
-      });
-
-      gsap.utils.toArray<HTMLElement>(".project-card").forEach((card) => {
-        gsap.to(card, {
-          "--card-shift": "100%",
-          ease: "none",
-          scrollTrigger: {
-            trigger: card,
-            start: "clamp(top 86%)",
-            end: "clamp(bottom 24%)",
-            scrub: 1,
-          },
         });
       });
 
@@ -633,6 +599,125 @@ export default function Home() {
         );
       });
 
+      gsap.utils.toArray<HTMLElement>(".project-card").forEach((card, index) => {
+        const visual = card.querySelector<HTMLElement>(".project-visual-frame");
+        const content = card.querySelector<HTMLElement>(".project-content");
+        const labels = Array.from(card.querySelectorAll<HTMLElement>(".project-detail-labels li"));
+        const isEven = index % 2 === 1;
+
+        gsap.set(card, {
+          autoAlpha: 0,
+          y: 72,
+          scale: 0.94,
+          rotate: isEven ? -1.2 : 1.2,
+          clipPath: "inset(10% 4% 10% 4% round 8px)",
+        });
+
+        if (visual) {
+          gsap.set(visual, {
+            autoAlpha: 0,
+            x: isEven ? 72 : -72,
+            y: 24,
+            scale: 0.92,
+            rotate: isEven ? 2.4 : -2.4,
+          });
+        }
+
+        if (content) {
+          gsap.set(content, {
+            autoAlpha: 0,
+            x: isEven ? -48 : 48,
+            y: 18,
+            scale: 0.98,
+          });
+        }
+
+        if (labels.length > 0) {
+          gsap.set(labels, { autoAlpha: 0, y: 16, scale: 0.88 });
+        }
+
+        const intro = gsap.timeline({
+          scrollTrigger: {
+            trigger: card,
+            start: "clamp(top 78%)",
+            end: "clamp(top 42%)",
+            toggleActions: "play none none reverse",
+          },
+        });
+
+        intro
+          .to(card, {
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+            rotate: 0,
+            clipPath: "inset(0% 0% 0% 0% round 8px)",
+            duration: 0.82,
+            ease: "power3.out",
+          })
+          .to(
+            visual,
+            {
+              autoAlpha: 1,
+              x: 0,
+              y: 0,
+              scale: 1,
+              rotate: 0,
+              duration: 0.85,
+              ease: "back.out(1.35)",
+            },
+            0.12,
+          )
+          .to(
+            content,
+            {
+              autoAlpha: 1,
+              x: 0,
+              y: 0,
+              scale: 1,
+              duration: 0.68,
+              ease: "power3.out",
+            },
+            0.22,
+          )
+          .to(
+            labels,
+            {
+              autoAlpha: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.4,
+              ease: "back.out(1.8)",
+              stagger: 0.035,
+            },
+            0.44,
+          );
+
+        ScrollTrigger.create({
+          trigger: card,
+          start: "clamp(top 58%)",
+          end: "clamp(bottom 42%)",
+          toggleClass: { targets: card, className: "is-active" },
+        });
+
+        if (visual) {
+          gsap.fromTo(
+            visual,
+            { yPercent: isEven ? -3 : 3 },
+            {
+              yPercent: isEven ? 3 : -3,
+              ease: "none",
+              scrollTrigger: {
+                trigger: card,
+                start: "clamp(top bottom)",
+                end: "clamp(bottom top)",
+                scrub: 1,
+              },
+            },
+          );
+        }
+      });
+
       gsap.utils.toArray<HTMLElement>(".viewport-panel").forEach((panel) => {
         const panelContent = panel.querySelector(".section-content");
 
@@ -659,32 +744,6 @@ export default function Home() {
             },
           );
         }
-      });
-
-      gsap.utils.toArray<HTMLElement>(".project-card").forEach((card) => {
-        const tiles = card.querySelectorAll(".shatter-tile");
-
-        gsap.set(tiles, {
-          opacity: 0,
-          x: (_, tile) => Number((tile as HTMLElement).dataset.x),
-          y: (_, tile) => Number((tile as HTMLElement).dataset.y),
-          rotate: (_, tile) => Number((tile as HTMLElement).dataset.rotation),
-        });
-
-        gsap.to(tiles, {
-          opacity: 1,
-          x: 0,
-          y: 0,
-          rotate: 0,
-          duration: 0.9,
-          ease: "power3.out",
-          stagger: { each: 0.035, from: "random" },
-          scrollTrigger: {
-            trigger: card,
-            start: "clamp(top 72%)",
-            once: true,
-          },
-        });
       });
 
       gsap.utils.toArray<HTMLElement>(".timeline-item").forEach((item) => {
@@ -891,34 +950,30 @@ export default function Home() {
 
       <section id="why" className="section viewport-panel snap-section value-section text-section">
         <div className="bubble bubble-about" />
-        <div className="section-content text-section-content">
-          <div className="section-heading compact">
+        <div className="section-content why-showcase">
+          <div className="section-heading compact why-heading">
             <span className="section-index">01</span>
             <div>
               <p className="eyebrow">WHY ISRAEL</p>
-              <h2 className="pop-heading">Bring me in when the backend needs an owner.</h2>
+              <h2 className="pop-heading">Backend ownership when state gets expensive.</h2>
             </div>
           </div>
 
-          <div className="body-copy pop-copy">
-            <p>Some backend work is routine. Mine usually starts after the easy part.</p>
-            <p>
-              A balance is wrong. A payment completed but access was never
-              granted. Two systems disagree about the same user. A manual
-              process has become too expensive to keep running. Production
-              failed, and the logs do not explain why.
-            </p>
-            <p>That is the work I am built for.</p>
-            <p>
-              I trace the real source of truth, move important rules to the
-              right boundary, model the state properly, and leave the system
-              easier to reason about than I found it.
-            </p>
-            <ul className="value-list">
-              {valuePoints.map((point) => (
-                <li key={point}>{point}</li>
-              ))}
-            </ul>
+          <div className="why-board pop-copy">
+            <div className="diagram-feature why-diagram">
+              <BackendOwnershipDiagram />
+            </div>
+            <aside className="compact-copy-panel why-copy-panel">
+              <span className="panel-label">WHAT I FIX</span>
+              <p>
+                I am useful when the backend has to become the source of truth.
+              </p>
+              <ul className="value-list compact-value-list">
+                <li>Balances, payments, permissions, and retries.</li>
+                <li>Rules moved to the boundary that controls them.</li>
+                <li>Evidence left behind when production gets messy.</li>
+              </ul>
+            </aside>
           </div>
         </div>
       </section>
@@ -926,16 +981,14 @@ export default function Home() {
       <section id="work" className="section viewport-panel snap-section work-section">
         <div className="bubble bubble-work" />
         <div className="section-content">
-          <div className="section-heading">
+          <div className="section-heading proof-heading">
             <span className="section-index">02</span>
             <div>
               <p className="eyebrow">PROOF</p>
-              <h2 className="pop-heading">The work behind the claim.</h2>
+              <h2 className="pop-heading">Systems that had to hold up after release.</h2>
               <p className="section-intro pop-copy">
-                These are not demo projects built to fill a grid. They come
-                from payment systems, business operations, infrastructure
-                automation, and a debugging product I started because guessing
-                about production behavior was not good enough.
+                Payment ledgers, runtime diagnostics, infrastructure control,
+                business workflows, and production systems people depended on.
               </p>
             </div>
           </div>
@@ -943,16 +996,15 @@ export default function Home() {
           <div className="project-list">
             {projects.map((project) => (
               <article className="project-card" key={project.name}>
-                <ShatterPanel name={project.name} />
+                <div className="project-visual-frame">
+                  <ProjectVisual kind={project.diagram as ProjectDiagramKind} />
+                </div>
                 <div className="project-content pop-copy">
                   <span className="project-index">{project.index}</span>
-                  <p className="project-meta">{project.metadata}</p>
-                  <h3>{project.title}</h3>
-                  <p>{project.summary}</p>
-                  <div className="project-full">
-                    {project.full.map((paragraph) => (
-                      <p key={paragraph}>{paragraph}</p>
-                    ))}
+                  <div className="project-copy-main">
+                    <p className="project-meta">{project.metadata}</p>
+                    <h3>{project.title}</h3>
+                    <p>{project.summary}</p>
                   </div>
                   <ul className="project-detail-labels">
                     {project.details.map((detail) => (
@@ -1022,21 +1074,21 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="body-copy pop-copy">
-            <p>I start by finding the real authority in the system.</p>
-            <p>
-              Who owns the balance? Which service decides access? What happens
-              when a webhook arrives twice? Can a partial failure leave two
-              databases telling different stories? Will someone understand this
-              incident six months from now?
-            </p>
-            <p>Those questions shape the design.</p>
-            <p>
-              I prefer small, explicit boundaries over hidden behavior. I test
-              failure paths, not only happy paths. I stay close to production
-              because the real system is the one users are touching, not the one
-              imagined in a ticket.
-            </p>
+          <div className="body-copy diagram-led-copy pop-copy">
+            <div className="diagram-feature">
+              <EngineeringLoopDiagram />
+            </div>
+            <div className="compact-copy-panel">
+              <p>
+                I start by deciding who owns the truth, what state changes are
+                allowed, and how the system explains itself when something goes
+                wrong.
+              </p>
+              <p>
+                The goal is simple: small boundaries, explicit rules, and
+                production behavior that can be understood after release.
+              </p>
+            </div>
           </div>
         </div>
       </section>

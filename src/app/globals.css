@@ -1,10 +1,3 @@
-@import "tailwindcss";
-
-@theme inline {
-  --font-sans: var(--font-instrument);
-  --font-mono: var(--font-jetbrains);
-}
-
 :root {
   --ink: #1B2430;
   --ink-soft: #5B6472;
@@ -582,7 +575,8 @@ h3 {
   --section-to: var(--blue);
   --section-orb: var(--sun);
   background:
-    radial-gradient(circle at 86% 18%, color-mix(in srgb, var(--section-orb) 52%, transparent) 0 15rem, transparent 15.1rem),
+    radial-gradient(circle at 88% 12%, color-mix(in srgb, var(--section-orb) 55%, transparent) 0 15rem, transparent 15.1rem),
+    radial-gradient(circle at 12% 42%, color-mix(in srgb, var(--bg) 38%, transparent) 0 17rem, transparent 17.1rem),
     linear-gradient(135deg, var(--section-from), var(--section-to));
   align-items: flex-start;
   overflow: visible;
@@ -612,7 +606,8 @@ h3 {
   --section-to: var(--sun);
   --section-orb: var(--pink);
   background:
-    radial-gradient(circle at 82% 20%, color-mix(in srgb, var(--section-orb) 44%, transparent) 0 14rem, transparent 14.1rem),
+    radial-gradient(circle at 89% 24%, color-mix(in srgb, var(--section-orb) 42%, transparent) 0 15rem, transparent 15.1rem),
+    radial-gradient(circle at 14% 84%, color-mix(in srgb, var(--bg) 38%, transparent) 0 16rem, transparent 16.1rem),
     linear-gradient(135deg, var(--section-from), var(--section-to));
 }
 
@@ -631,7 +626,7 @@ h3 {
 
 .section-content {
   margin: 0 auto;
-  max-width: 1180px;
+  max-width: min(1280px, calc(100vw - 4rem));
   position: relative;
   width: 100%;
   will-change: transform, opacity;
@@ -663,11 +658,11 @@ h3 {
 
 .section-intro {
   color: var(--ink);
-  font-size: clamp(1rem, 1.45vw, 1.22rem);
+  font-size: clamp(1rem, 1.25vw, 1.16rem);
   font-weight: 460;
   line-height: 1.55;
   margin: 1.1rem 0 0;
-  max-width: 44rem;
+  max-width: 38rem;
 }
 
 .section-index,
@@ -687,29 +682,93 @@ h3 {
 }
 
 .work-section .project-list {
-  border-bottom: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
-  border-top: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+  gap: clamp(1.1rem, 2.4vw, 1.8rem);
   grid-template-columns: 1fr;
+  perspective: 1400px;
 }
 
 .project-card {
   --card-from: var(--pink);
   --card-to: var(--blue);
   --card-orb: var(--sun);
-  --card-shift: 0%;
   align-items: center;
-  background: transparent;
-  border: 0;
-  border-radius: 0;
+  background:
+    radial-gradient(circle at 8% 12%, color-mix(in srgb, var(--card-orb) 45%, transparent) 0 10rem, transparent 10.1rem),
+    linear-gradient(135deg, color-mix(in srgb, var(--card-from) 58%, var(--bg)), color-mix(in srgb, var(--card-to) 50%, var(--bg)));
+  border: 1px solid color-mix(in srgb, var(--ink) 13%, transparent);
+  border-radius: 8px;
+  box-shadow: 0 30px 80px color-mix(in srgb, var(--ink) 10%, transparent);
   display: grid;
-  gap: clamp(1rem, 3vw, 2.5rem);
-  grid-template-columns: minmax(13rem, 0.62fr) minmax(0, 1.38fr);
-  overflow: visible;
-  padding: clamp(1rem, 2.2vh, 1.45rem) 0;
+  gap: clamp(1rem, 2.8vw, 2.4rem);
+  grid-template-columns: minmax(26rem, 1.18fr) minmax(22rem, 0.82fr);
+  overflow: hidden;
+  padding: clamp(1rem, 2vw, 1.4rem);
   position: relative;
   transition:
+    box-shadow 420ms ease,
+    filter 420ms ease,
     opacity 350ms ease,
     transform 350ms ease;
+  transform-style: preserve-3d;
+  will-change: transform, opacity, clip-path;
+}
+
+.project-card::before,
+.project-card::after {
+  border-radius: 999px;
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+}
+
+.project-card::before {
+  background: color-mix(in srgb, var(--bg) 38%, transparent);
+  height: clamp(7rem, 18vw, 14rem);
+  left: clamp(-5rem, -8vw, -2.5rem);
+  top: clamp(-5rem, -8vw, -2.5rem);
+  width: clamp(7rem, 18vw, 14rem);
+}
+
+.project-card::after {
+  background: color-mix(in srgb, var(--card-orb) 50%, transparent);
+  bottom: clamp(-4rem, -7vw, -2rem);
+  height: clamp(6rem, 14vw, 11rem);
+  right: clamp(-4rem, -7vw, -2rem);
+  width: clamp(6rem, 14vw, 11rem);
+}
+
+.project-card.is-active {
+  box-shadow: 0 42px 110px color-mix(in srgb, var(--ink) 15%, transparent);
+  filter: saturate(1.04);
+}
+
+.project-card:nth-child(even) {
+  grid-template-columns: minmax(22rem, 0.82fr) minmax(26rem, 1.18fr);
+}
+
+.project-card:nth-child(even) .project-visual-frame {
+  order: 2;
+}
+
+.project-card:nth-child(even) .project-content {
+  order: 1;
+}
+
+.project-card:nth-child(3n) {
+  grid-template-columns: minmax(20rem, 0.76fr) minmax(28rem, 1.24fr);
+}
+
+.project-card:nth-child(3n) .project-visual-frame {
+  order: 2;
+}
+
+.project-card:nth-child(3n) .project-content {
+  order: 1;
+}
+
+.project-card:nth-child(4n) {
+  grid-template-columns: minmax(29rem, 1.28fr) minmax(20rem, 0.72fr);
 }
 
 .project-card:nth-child(2) {
@@ -730,90 +789,103 @@ h3 {
   --card-orb: var(--blue);
 }
 
+.project-card:nth-child(5) {
+  --card-from: var(--blue);
+  --card-to: var(--pink);
+  --card-orb: var(--sun);
+}
+
 .project-card + .project-card {
-  border-top: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+  border-top: 0;
 }
 
 .work-section .project-card {
-  min-height: 0;
+  min-height: clamp(26rem, 64vh, 37rem);
 }
 
-.work-section .shatter-panel {
-  aspect-ratio: 16 / 7;
+.work-section .diagram-shell {
+  aspect-ratio: 16 / 11;
+  box-shadow: none;
+  min-height: clamp(21rem, 50vh, 31rem);
+}
+
+.project-visual-frame {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--bg) 72%, transparent), color-mix(in srgb, var(--bg) 46%, transparent));
+  border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
   border-radius: 8px;
-  min-height: clamp(5.8rem, 13vh, 8.2rem);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--bg) 80%, transparent);
+  overflow: hidden;
+  padding: clamp(0.45rem, 1vw, 0.7rem);
+  position: relative;
+  transform-origin: center;
+  will-change: transform, opacity;
+  z-index: 1;
 }
 
-.work-section .shatter-label {
-  align-items: flex-end;
-  font-size: clamp(1.7rem, 3.1vw, 2.8rem);
-  padding: clamp(0.8rem, 2vw, 1rem);
+.project-visual-frame::after {
+  background:
+    linear-gradient(90deg, transparent, color-mix(in srgb, var(--bg) 34%, transparent), transparent);
+  content: "";
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transform: translateX(-60%);
+  transition:
+    opacity 420ms ease,
+    transform 820ms ease;
+}
+
+.project-card.is-active .project-visual-frame::after {
+  opacity: 1;
+  transform: translateX(65%);
 }
 
 .work-section .project-content {
   align-self: center;
   display: grid;
-  gap: 0.55rem 1.25rem;
-  grid-template-columns: 3.2rem minmax(0, 1fr);
-  padding: 0;
+  gap: 0.85rem 1rem;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  padding: clamp(0.4rem, 1vw, 0.8rem);
+  position: relative;
+  will-change: transform, opacity;
+  z-index: 1;
 }
 
 .work-section .project-content ul {
-  font-size: clamp(0.82rem, 0.95vw, 0.95rem);
+  font-size: clamp(0.76rem, 0.82vw, 0.86rem);
   grid-column: 2;
-  margin-top: 0.55rem;
+  margin-top: 0.4rem;
 }
 
 .work-section .project-content h3,
 .work-section .project-content p,
+.work-section .project-copy-main,
 .work-section .project-full,
 .work-section .project-link {
   grid-column: 2;
 }
 
 .work-section .project-index {
-  grid-row: 1 / span 3;
-  padding-top: 0.2rem;
+  align-items: center;
+  background: color-mix(in srgb, var(--bg) 76%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  border-radius: 999px;
+  display: inline-flex;
+  grid-row: 1 / span 2;
+  height: 3rem;
+  justify-content: center;
+  padding-top: 0;
+  width: 3rem;
 }
 
 .project-card:hover {
-  transform: translate3d(0.4rem, 0, 0);
+  transform: translate3d(0, -0.25rem, 0);
 }
 
 .capability-card:hover {
   transform: translate3d(0, -3px, 0);
-}
-
-.shatter-panel {
-  aspect-ratio: 4 / 3;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  min-height: 16rem;
-  overflow: hidden;
-  position: relative;
-}
-
-.shatter-tile {
-  display: block;
-  min-height: 100%;
-  width: 100%;
-  will-change: transform, opacity;
-}
-
-.shatter-label {
-  align-items: center;
-  color: var(--ink);
-  display: flex;
-  font-family: var(--font-sans);
-  font-size: clamp(2.4rem, 6vw, 5rem);
-  font-weight: 620;
-  inset: 0;
-  letter-spacing: -0.035em;
-  line-height: 0.95;
-  padding: 1.25rem;
-  position: absolute;
-  word-break: break-word;
 }
 
 .project-content {
@@ -827,6 +899,12 @@ h3 {
   font-weight: 430;
   line-height: 1.62;
   margin: 0.85rem 0 0;
+}
+
+.work-section .project-content > p {
+  color: var(--ink);
+  font-size: clamp(0.98rem, 1.1vw, 1.08rem);
+  line-height: 1.52;
 }
 
 .project-meta,
@@ -844,7 +922,26 @@ h3 {
 
 .project-content .project-meta {
   color: var(--ink);
-  margin-top: -0.1rem;
+  margin: 0;
+}
+
+.work-section .project-content h3 {
+  font-size: clamp(1.8rem, 3.1vw, 3.25rem);
+  letter-spacing: -0.03em;
+  line-height: 0.96;
+  margin-top: 0.35rem;
+  max-width: 11ch;
+}
+
+.project-copy-main {
+  background: color-mix(in srgb, var(--bg) 54%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  border-radius: 8px;
+  padding: clamp(1rem, 2vw, 1.35rem);
+}
+
+.project-card.is-active .project-copy-main {
+  background: color-mix(in srgb, var(--bg) 68%, transparent);
 }
 
 .project-full {
@@ -867,6 +964,33 @@ h3 {
   list-style: none;
   margin: 1.3rem 0 0;
   padding: 0;
+}
+
+.work-section .project-detail-labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.work-section .project-detail-labels li {
+  background: color-mix(in srgb, var(--bg) 62%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  border-radius: 999px;
+  display: inline-flex;
+  font-family: var(--font-technical);
+  font-size: 0.68rem;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  padding: 0.45rem 0.58rem;
+  will-change: transform, opacity;
+}
+
+.project-card.is-active .project-detail-labels li {
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
+}
+
+.work-section .project-detail-labels li::before {
+  display: none;
 }
 
 .project-content li {
@@ -905,6 +1029,13 @@ h3 {
   width: fit-content;
 }
 
+.work-section .project-outcome {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+  grid-column: 2;
+}
+
 .project-link {
   align-items: center;
   color: var(--coral-deep);
@@ -917,6 +1048,20 @@ h3 {
 
 .project-link:hover {
   color: var(--ink);
+}
+
+.diagram-shell {
+  aspect-ratio: 19 / 9;
+  border-radius: 8px;
+  box-shadow: 0 18px 48px color-mix(in srgb, var(--ink) 7%, transparent);
+  overflow: hidden;
+  width: 100%;
+}
+
+.diagram-shell svg {
+  display: block;
+  height: 100%;
+  width: 100%;
 }
 
 .capability-grid {
@@ -1020,11 +1165,70 @@ h3 {
   padding-top: clamp(7.5rem, 12vh, 9rem);
 }
 
+.why-showcase {
+  display: grid;
+  gap: clamp(1.2rem, 3vw, 2.4rem);
+}
+
+.why-heading {
+  align-items: end;
+  grid-template-columns: 4rem minmax(0, 1fr);
+  margin-bottom: 0;
+  max-width: 56rem;
+}
+
+.why-heading.compact h2,
+.proof-heading h2 {
+  font-size: clamp(2.9rem, 6vw, 6.2rem);
+  line-height: 0.9;
+  max-width: 13ch;
+}
+
+.why-board {
+  align-items: stretch;
+  display: grid;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  grid-template-columns: minmax(0, 1fr) minmax(17rem, 0.34fr);
+}
+
+.why-diagram {
+  min-width: 0;
+}
+
+.why-diagram .diagram-shell {
+  aspect-ratio: 16 / 7.6;
+  min-height: clamp(20rem, 48vh, 32rem);
+}
+
+.why-copy-panel {
+  align-content: center;
+  align-self: stretch;
+  background:
+    radial-gradient(circle at 88% 18%, color-mix(in srgb, var(--pink) 42%, transparent) 0 7rem, transparent 7.1rem),
+    color-mix(in srgb, var(--bg) 76%, transparent);
+}
+
+.panel-label {
+  color: var(--coral-deep);
+  font-family: var(--font-technical);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+}
+
 .text-section-content {
   align-items: center;
   display: grid;
   gap: clamp(2rem, 6vw, 5.5rem);
   grid-template-columns: minmax(18rem, 0.78fr) minmax(0, 1.22fr);
+}
+
+.value-section .text-section-content,
+.style-section .text-section-content {
+  grid-template-columns: minmax(19rem, 0.58fr) minmax(0, 1.42fr);
+}
+
+.style-section .text-section-content {
+  grid-template-columns: minmax(0, 1.42fr) minmax(19rem, 0.58fr);
 }
 
 .text-section-content .section-heading {
@@ -1047,10 +1251,6 @@ h3 {
   z-index: -1;
 }
 
-.style-section .text-section-content {
-  grid-template-columns: minmax(0, 1.18fr) minmax(18rem, 0.82fr);
-}
-
 .style-section .section-heading {
   order: 2;
 }
@@ -1064,6 +1264,68 @@ h3 {
   display: grid;
   gap: clamp(0.8rem, 1.4vw, 1.05rem);
   padding: 0;
+}
+
+.diagram-led-copy {
+  align-items: center;
+  display: grid;
+  gap: clamp(1rem, 2.4vw, 2rem);
+}
+
+.diagram-feature {
+  position: relative;
+}
+
+.diagram-feature::before {
+  background: color-mix(in srgb, var(--sun) 44%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  border-radius: 999px;
+  content: "";
+  height: clamp(5rem, 12vw, 8.5rem);
+  position: absolute;
+  right: clamp(-2.2rem, -3vw, -1rem);
+  top: clamp(-2rem, -3vw, -1rem);
+  width: clamp(5rem, 12vw, 8.5rem);
+  z-index: -1;
+}
+
+.diagram-feature .diagram-shell {
+  aspect-ratio: 16 / 9;
+  box-shadow: 0 28px 80px color-mix(in srgb, var(--ink) 10%, transparent);
+}
+
+.compact-copy-panel {
+  background:
+    radial-gradient(circle at 94% 12%, color-mix(in srgb, var(--blue) 32%, transparent) 0 5.8rem, transparent 5.9rem),
+    color-mix(in srgb, var(--bg) 76%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  border-radius: 8px;
+  box-shadow: 0 18px 50px color-mix(in srgb, var(--ink) 7%, transparent);
+  display: grid;
+  gap: 0.8rem;
+  padding: clamp(1rem, 2vw, 1.35rem);
+}
+
+.compact-copy-panel p {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  font-size: clamp(1rem, 1.18vw, 1.1rem);
+  line-height: 1.55;
+  padding: 0;
+}
+
+.compact-copy-panel p::before {
+  display: none;
+}
+
+.compact-value-list {
+  gap: 0.55rem;
+}
+
+.compact-value-list li {
+  background: color-mix(in srgb, var(--bg) 62%, transparent);
+  padding: 0.72rem 0.8rem;
 }
 
 .body-copy p {
@@ -1093,14 +1355,14 @@ h3 {
   width: 2.5rem;
 }
 
-.body-copy p:nth-child(2) {
+.body-copy p:nth-of-type(2) {
   background:
     radial-gradient(circle at 92% 20%, color-mix(in srgb, var(--blue) 34%, transparent) 0 5rem, transparent 5.1rem),
     color-mix(in srgb, var(--bg) 68%, transparent);
   transform: translateX(clamp(0rem, 2vw, 1.5rem));
 }
 
-.body-copy p:nth-child(3) {
+.body-copy p:nth-of-type(3) {
   background:
     radial-gradient(circle at 92% 20%, color-mix(in srgb, var(--sun) 46%, transparent) 0 5rem, transparent 5.1rem),
     color-mix(in srgb, var(--bg) 68%, transparent);
@@ -1658,10 +1920,40 @@ h3 {
     grid-template-columns: 1fr;
   }
 
+  .project-card:nth-child(even) {
+    grid-template-columns: 1fr;
+  }
+
+  .project-card:nth-child(3n),
+  .project-card:nth-child(4n) {
+    grid-template-columns: 1fr;
+  }
+
+  .project-card:nth-child(even) .project-visual-frame,
+  .project-card:nth-child(even) .project-content,
+  .project-card:nth-child(3n) .project-visual-frame,
+  .project-card:nth-child(3n) .project-content {
+    order: initial;
+  }
+
   .text-section-content {
     grid-template-columns: 1fr;
   }
 
+  .why-board {
+    grid-template-columns: 1fr;
+  }
+
+  .why-diagram .diagram-shell {
+    aspect-ratio: 16 / 9;
+    min-height: clamp(18rem, 42vh, 26rem);
+  }
+
+  .style-section .text-section-content {
+    grid-template-columns: 1fr;
+  }
+
+  .value-section .text-section-content,
   .style-section .text-section-content {
     grid-template-columns: 1fr;
   }
@@ -1671,8 +1963,8 @@ h3 {
     order: initial;
   }
 
-  .body-copy p:nth-child(2),
-  .body-copy p:nth-child(3) {
+  .body-copy p:nth-of-type(2),
+  .body-copy p:nth-of-type(3) {
     transform: none;
   }
 
@@ -1685,8 +1977,24 @@ h3 {
     min-height: auto;
   }
 
+  .work-section .diagram-shell {
+    min-height: clamp(18rem, 42vh, 25rem);
+  }
+
+  .diagram-shell {
+    aspect-ratio: 19 / 10;
+  }
+
   .work-section .project-content {
     grid-template-columns: 2.8rem minmax(0, 1fr);
+  }
+
+  .work-section .project-content h3 {
+    max-width: 16ch;
+  }
+
+  .compact-copy-panel {
+    max-width: none;
   }
 
   .capability-card + .capability-card {
@@ -1846,8 +2154,14 @@ h3 {
     grid-template-columns: 1fr;
   }
 
-  .shatter-panel {
-    min-height: 12rem;
+  .why-heading {
+    grid-template-columns: 1fr;
+  }
+
+  .why-heading.compact h2,
+  .proof-heading h2 {
+    font-size: clamp(2.65rem, 11vw, 4.6rem);
+    max-width: 10.5ch;
   }
 
   .work-section .project-card {
@@ -1855,8 +2169,25 @@ h3 {
     padding: 1rem 0;
   }
 
-  .work-section .shatter-panel {
-    min-height: 8rem;
+  .project-card {
+    border-left: 0;
+    border-right: 0;
+    border-radius: 0;
+  }
+
+  .project-card::before {
+    height: 9rem;
+    width: 9rem;
+  }
+
+  .diagram-shell {
+    aspect-ratio: 4 / 3;
+  }
+
+  .diagram-feature .diagram-shell,
+  .work-section .diagram-shell {
+    aspect-ratio: 4 / 3;
+    min-height: auto;
   }
 
   .work-section .project-content {
@@ -1874,6 +2205,10 @@ h3 {
 
   .work-section .project-index {
     grid-row: auto;
+  }
+
+  .why-diagram .diagram-shell {
+    min-height: auto;
   }
 
   .capability-card {
@@ -1961,7 +2296,6 @@ h3 {
     transition-duration: 0.001ms !important;
   }
 
-  .shatter-tile,
   .hero-depth-layer,
   .hero-bubble-parallax,
   .hero-illustration,
