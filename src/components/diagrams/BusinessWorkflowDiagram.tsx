@@ -46,8 +46,8 @@ export function BusinessWorkflowDiagram() {
           <text x="88" y="267" fill="var(--coral-deep)" fontFamily="var(--font-technical)" fontSize="11">MASTERCARD</text>
           <rect x="190" y="248" width="104" height="28" rx="8" fill="var(--bg)" stroke="rgba(27,36,48,0.14)" />
           <text x="207" y="267" fill="var(--coral-deep)" fontFamily="var(--font-technical)" fontSize="11">WALLET FLOWS</text>
-          <rect x="316" y="248" width="146" height="28" rx="8" fill="var(--bg)" stroke="rgba(27,36,48,0.14)" />
-          <text x="333" y="267" fill="var(--coral-deep)" fontFamily="var(--font-technical)" fontSize="11">DOCUMENT VERIFICATION</text>
+          <rect x="316" y="248" width="158" height="28" rx="8" fill="var(--bg)" stroke="rgba(27,36,48,0.14)" />
+          <text x="331" y="267" fill="var(--coral-deep)" fontFamily="var(--font-technical)" fontSize="9.5">DOCUMENT VERIFICATION</text>
           <rect x="484" y="248" width="54" height="28" rx="8" fill="var(--bg)" stroke="rgba(27,36,48,0.14)" />
           <text x="502" y="267" fill="var(--coral-deep)" fontFamily="var(--font-technical)" fontSize="11">SMS</text>
           <rect x="560" y="248" width="120" height="28" rx="8" fill="var(--bg)" stroke="rgba(27,36,48,0.14)" />

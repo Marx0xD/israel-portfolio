@@ -29,7 +29,7 @@ export function ThreadlineEvidenceDiagram() {
         <text x="410" y="135" fill="var(--ink-soft)" fontFamily="var(--font-technical)" fontSize="10" letterSpacing="0.8">DB EVIDENCE</text>
         <rect x="392" y="176" width="134" height="50" rx="8" fill="var(--sun)" stroke="rgba(27,36,48,0.16)" />
         <text x="410" y="207" fill="var(--ink)" fontFamily="var(--font-sans)" fontSize="18" fontWeight="700">Error found</text>
-        <text x="410" y="223" fill="var(--ink-soft)" fontFamily="var(--font-technical)" fontSize="10" letterSpacing="0.8">SOURCE INTELLIGENCE</text>
+        <text x="410" y="223" fill="var(--ink-soft)" fontFamily="var(--font-technical)" fontSize="9" letterSpacing="0.35">SOURCE INTELLIGENCE</text>
 
         <text x="580" y="50" fill="var(--coral-deep)" fontFamily="var(--font-technical)" fontSize="12" letterSpacing="1.2">CASE FILES</text>
         <rect x="572" y="82" width="136" height="170" rx="8" fill="var(--bg)" stroke="rgba(27,36,48,0.16)" />

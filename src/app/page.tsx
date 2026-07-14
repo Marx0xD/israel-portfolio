@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import dynamic from "next/dynamic";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import {
@@ -19,6 +20,40 @@ import { OdooControlPlaneDiagram } from "../components/diagrams/OdooControlPlane
 import { ThreadlineEvidenceDiagram } from "../components/diagrams/ThreadlineEvidenceDiagram";
 
 gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
+
+const HeroSystemVisual = dynamic(
+  () => import("../components/hero/HeroSystemVisual"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="hero-system-visual">
+        <div className="hero-system-fallback" aria-hidden="true">
+          <div className="fallback-route" />
+          <div className="fallback-node fallback-node-api">
+            <span>API Boundary</span>
+            <small>requests enter</small>
+          </div>
+          <div className="fallback-node fallback-node-ingestion">
+            <span>Ingestion</span>
+            <small>events normalized</small>
+          </div>
+          <div className="fallback-node fallback-node-events">
+            <span>Runtime Events</span>
+            <small>behavior recorded</small>
+          </div>
+          <div className="fallback-node fallback-node-store">
+            <span>Evidence Store</span>
+            <small>state preserved</small>
+          </div>
+          <div className="fallback-node fallback-node-flow">
+            <span>Flow Reconstruction</span>
+            <small>case file rebuilt</small>
+          </div>
+        </div>
+      </div>
+    ),
+  },
+);
 
 const navItems = [
   ["Work", "#work"],
@@ -225,7 +260,7 @@ export default function Home() {
           y: 0,
           scale: 1,
         });
-        gsap.set(".project-card, .project-visual-frame, .project-content, .project-detail-labels li", {
+        gsap.set(".project-card, .project-visual-frame, .project-content, .project-detail-labels li, .proof-project-scene, .proof-visual-frame, .proof-project-content, .proof-detail-labels li, .proof-map, .proof-marker, .proof-summary", {
           opacity: 1,
           x: 0,
           y: 0,
@@ -241,6 +276,8 @@ export default function Home() {
         gsap.set(".site-nav", { opacity: 1, y: 0 });
         return;
       }
+
+      const proofMatchMedia = gsap.matchMedia();
 
       gsap.fromTo(
         ".site-nav",
@@ -375,43 +412,6 @@ export default function Home() {
         },
       });
 
-      [
-        {
-          selector: ".project-card",
-          from: "#FFE29E",
-          to: "#FFC7DA",
-          orb: "#7FC7EE",
-        },
-        {
-          selector: ".capability-card",
-          from: "#FFC7DA",
-          to: "#AEDDF7",
-          orb: "#FFCB5C",
-        },
-        {
-          selector: ".timeline-content",
-          from: "#AEDDF7",
-          to: "#FFE29E",
-          orb: "#FF9DC0",
-        },
-      ].forEach(({ selector, from, to, orb }) => {
-        gsap.utils.toArray<HTMLElement>(selector).forEach((card) => {
-          gsap.to(card, {
-            "--card-from": from,
-            "--card-to": to,
-            "--card-orb": orb,
-            "--card-wash": "#fff8df",
-            ease: "none",
-            scrollTrigger: {
-              trigger: card,
-              start: "clamp(top 86%)",
-              end: "clamp(bottom 24%)",
-              scrub: 1,
-            },
-          });
-        });
-      });
-
       const pointerCleanups: Array<() => void> = [];
       const heroPanel = root.current?.querySelector<HTMLElement>(".hero-panel");
       const heroDepthLayers = heroPanel
@@ -542,6 +542,322 @@ export default function Home() {
           0.34,
         );
 
+      const proofSection = root.current?.querySelector<HTMLElement>(".proof-journey-section");
+
+      if (proofSection) {
+        const proofStage = proofSection.querySelector<HTMLElement>(".proof-stage");
+        const proofHeading = proofSection.querySelector<HTMLElement>(".proof-heading");
+        const proofMap = proofSection.querySelector<HTMLElement>(".proof-map");
+        const proofSummary = proofSection.querySelector<HTMLElement>(".proof-summary");
+        const proofScenes = Array.from(
+          proofSection.querySelectorAll<HTMLElement>(".proof-project-scene"),
+        );
+        const proofMarkers = Array.from(
+          proofSection.querySelectorAll<HTMLElement>(".proof-marker"),
+        );
+
+        const sceneColors = [
+          { from: "#FFC7DA", to: "#AEDDF7", orb: "#FFE29E" },
+          { from: "#AEDDF7", to: "#FFE29E", orb: "#FFC7DA" },
+          { from: "#FFE29E", to: "#FFC7DA", orb: "#AEDDF7" },
+          { from: "#FFC7DA", to: "#FFE29E", orb: "#AEDDF7" },
+          { from: "#AEDDF7", to: "#FFC7DA", orb: "#FFE29E" },
+        ];
+
+        proofMatchMedia.add("(min-width: 900px)", () => {
+          if (!proofStage || !proofHeading || !proofMap || !proofSummary) {
+            return;
+          }
+
+          gsap.set(proofSection, {
+            "--section-from": "#FFC7DA",
+            "--section-to": "#AEDDF7",
+            "--section-orb": "#FFE29E",
+          });
+          gsap.set(proofHeading, { autoAlpha: 1, y: 0, scale: 1 });
+          gsap.set(proofMap, { autoAlpha: 0, y: 36, scale: 0.96 });
+          gsap.set(proofMarkers, { autoAlpha: 0, y: 24, scale: 0.86 });
+          gsap.set(proofScenes, { autoAlpha: 0, y: 86, scale: 0.9 });
+          gsap.set(proofSummary, { autoAlpha: 0, y: 72, scale: 0.95 });
+
+          proofScenes.forEach((scene) => {
+            gsap.set(scene.querySelector(".proof-visual-frame"), {
+              autoAlpha: 0,
+              y: 28,
+              scale: 0.9,
+            });
+            gsap.set(scene.querySelector(".proof-project-content"), {
+              autoAlpha: 0,
+              y: 24,
+              scale: 0.97,
+            });
+            gsap.set(scene.querySelectorAll(".proof-detail-labels li"), {
+              autoAlpha: 0,
+              y: 16,
+              scale: 0.9,
+            });
+          });
+
+          const sceneStartTime = 1.6;
+          const sceneStep = 1.45;
+          const scrollScreens = proofScenes.length * 1.65 + 2.25;
+
+          const proofTimeline = gsap.timeline({
+            defaults: { ease: "none" },
+            scrollTrigger: {
+              id: "proof-journey",
+              trigger: proofSection,
+              start: "top top",
+              end: () => `+=${window.innerHeight * scrollScreens}`,
+              pin: true,
+              pinSpacing: true,
+              scrub: 1.35,
+              anticipatePin: 1,
+              invalidateOnRefresh: true,
+            },
+          });
+
+          proofTimeline
+            .to(
+              proofHeading,
+              { autoAlpha: 1, y: 0, scale: 1, duration: 0.25, ease: "power2.out" },
+              0,
+            )
+            .to(
+              proofHeading,
+              {
+                y: -40,
+                scale: 0.74,
+                transformOrigin: "0% 0%",
+                duration: 0.72,
+                ease: "power1.inOut",
+              },
+              0.72,
+            )
+            .to(
+              proofMap,
+              { autoAlpha: 1, y: 0, scale: 1, duration: 0.58, ease: "power2.out" },
+              0.58,
+            )
+            .to(
+              proofMarkers,
+              {
+                autoAlpha: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.48,
+                stagger: 0.07,
+                ease: "back.out(1.4)",
+              },
+              0.78,
+            );
+
+          proofScenes.forEach((scene, index) => {
+            const sceneStart = sceneStartTime + index * sceneStep;
+            const visual = scene.querySelector<HTMLElement>(".proof-visual-frame");
+            const content = scene.querySelector<HTMLElement>(".proof-project-content");
+            const labels = scene.querySelectorAll<HTMLElement>(".proof-detail-labels li");
+            const marker = proofMarkers[index];
+            const previousScene = proofScenes[index - 1];
+            const color = sceneColors[index % sceneColors.length];
+            const diagram = scene.querySelector<HTMLElement>(".diagram-shell");
+            const isEven = index % 2 === 1;
+
+            if (previousScene) {
+              proofTimeline.to(
+                previousScene,
+                {
+                  autoAlpha: 0,
+                  y: -76,
+                  scale: 0.9,
+                  duration: 0.46,
+                  ease: "power1.in",
+                },
+                sceneStart - 0.22,
+              );
+            }
+
+            proofTimeline
+              .to(
+                proofSection,
+                {
+                  "--section-from": color.from,
+                  "--section-to": color.to,
+                  "--section-orb": color.orb,
+                  duration: 0.78,
+                },
+                sceneStart - 0.18,
+              )
+              .to(
+                proofMarkers,
+                { autoAlpha: 0.42, scale: 0.92, duration: 0.34, ease: "power1.out" },
+                sceneStart - 0.12,
+              )
+              .to(
+                marker,
+                { autoAlpha: 1, scale: 1.12, duration: 0.34, ease: "back.out(1.5)" },
+                sceneStart - 0.12,
+              )
+              .to(
+                scene,
+                { autoAlpha: 1, y: 0, scale: 1, duration: 0.58, ease: "power2.out" },
+                sceneStart,
+              );
+
+            if (visual) {
+              proofTimeline.fromTo(
+                visual,
+                {
+                  autoAlpha: 0,
+                  x: isEven ? 90 : -90,
+                  y: 34,
+                  scale: 0.88,
+                  rotate: isEven ? 3 : -3,
+                },
+                {
+                  autoAlpha: 1,
+                  x: 0,
+                  y: 0,
+                  scale: 1,
+                  rotate: 0,
+                  duration: 0.66,
+                  ease: "power2.out",
+                },
+                sceneStart + 0.05,
+              );
+            }
+
+            if (content) {
+              proofTimeline.fromTo(
+                content,
+                { autoAlpha: 0, x: isEven ? -68 : 68, y: 22, scale: 0.97 },
+                {
+                  autoAlpha: 1,
+                  x: 0,
+                  y: 0,
+                  scale: 1,
+                  duration: 0.58,
+                  ease: "power2.out",
+                },
+                sceneStart + 0.12,
+              );
+            }
+
+            if (labels.length > 0) {
+              proofTimeline.to(
+                labels,
+                {
+                  autoAlpha: 1,
+                  y: 0,
+                  scale: 1,
+                  duration: 0.32,
+                  stagger: 0.025,
+                  ease: "back.out(1.6)",
+                },
+                sceneStart + 0.3,
+              );
+            }
+
+            if (diagram) {
+              proofTimeline.to(
+                diagram,
+                {
+                  yPercent: isEven ? -3.5 : 3.5,
+                  scale: 1.025,
+                  duration: 0.74,
+                },
+                sceneStart + 0.38,
+              );
+            }
+          });
+
+          const summaryStart = sceneStartTime + proofScenes.length * sceneStep;
+          const finalColor = sceneColors[0];
+
+          proofTimeline
+            .to(
+              proofScenes[proofScenes.length - 1],
+              { autoAlpha: 0, y: -72, scale: 0.9, duration: 0.5, ease: "power1.in" },
+              summaryStart - 0.2,
+            )
+            .to(
+              proofSection,
+              {
+                "--section-from": finalColor.from,
+                "--section-to": finalColor.to,
+                "--section-orb": finalColor.orb,
+                duration: 0.7,
+              },
+              summaryStart - 0.1,
+            )
+            .to(
+              proofMarkers,
+              {
+                autoAlpha: 0,
+                y: -18,
+                scale: 0.94,
+                duration: 0.4,
+                stagger: 0.025,
+                ease: "power1.in",
+              },
+              summaryStart - 0.58,
+            )
+            .to(
+              proofMap,
+              { autoAlpha: 0, y: -24, scale: 1.02, duration: 0.38, ease: "power1.in" },
+              summaryStart - 0.46,
+            )
+            .to(
+              proofHeading,
+              { autoAlpha: 0, y: -82, scale: 0.62, duration: 0.38, ease: "power1.in" },
+              summaryStart - 0.46,
+            )
+            .to(
+              proofSummary,
+              { autoAlpha: 1, y: 0, scale: 1, duration: 0.66, ease: "power2.out" },
+              summaryStart + 0.08,
+            )
+            .to(
+              proofSummary,
+              { y: -18, scale: 0.985, duration: 0.55, ease: "power1.inOut" },
+              summaryStart + 0.82,
+            );
+        });
+
+        proofMatchMedia.add("(max-width: 899px)", () => {
+          gsap.set([proofMap, proofSummary, ...proofScenes, ...proofMarkers], {
+            autoAlpha: 1,
+            x: 0,
+            y: 0,
+            scale: 1,
+            rotate: 0,
+          });
+
+          proofScenes.forEach((scene) => {
+            gsap.fromTo(
+              scene,
+              { autoAlpha: 0, y: 34, scale: 0.98 },
+              {
+                autoAlpha: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.58,
+                ease: "power2.out",
+                scrollTrigger: {
+                  trigger: scene,
+                  start: "clamp(top 84%)",
+                  end: "clamp(top 54%)",
+                  toggleActions: "play none none reverse",
+                },
+              },
+            );
+          });
+        });
+      }
+
+      // Create downstream reveal triggers after the pinned proof journey. The
+      // pin adds several viewport-heights of spacing, so triggers created
+      // before it can cache positions that are too early.
       const headingSplits = gsap.utils
         .toArray<HTMLElement>(".pop-heading")
         .map((heading) => {
@@ -577,164 +893,58 @@ export default function Home() {
         });
 
       gsap.utils.toArray<HTMLElement>(".pop-copy").forEach((item) => {
-        gsap.fromTo(
-          item,
-          {
-            autoAlpha: 0,
-            y: 28,
-            scale: 0.97,
-          },
-          {
-            autoAlpha: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.58,
-            ease: "back.out(1.45)",
-            scrollTrigger: {
-              trigger: item,
-              start: "clamp(top 86%)",
-              once: true,
-            },
-          },
-        );
-      });
-
-      gsap.utils.toArray<HTMLElement>(".project-card").forEach((card, index) => {
-        const visual = card.querySelector<HTMLElement>(".project-visual-frame");
-        const content = card.querySelector<HTMLElement>(".project-content");
-        const labels = Array.from(card.querySelectorAll<HTMLElement>(".project-detail-labels li"));
-        const isEven = index % 2 === 1;
-
-        gsap.set(card, {
+        gsap.from(item, {
           autoAlpha: 0,
-          y: 72,
-          scale: 0.94,
-          rotate: isEven ? -1.2 : 1.2,
-          clipPath: "inset(10% 4% 10% 4% round 8px)",
-        });
-
-        if (visual) {
-          gsap.set(visual, {
-            autoAlpha: 0,
-            x: isEven ? 72 : -72,
-            y: 24,
-            scale: 0.92,
-            rotate: isEven ? 2.4 : -2.4,
-          });
-        }
-
-        if (content) {
-          gsap.set(content, {
-            autoAlpha: 0,
-            x: isEven ? -48 : 48,
-            y: 18,
-            scale: 0.98,
-          });
-        }
-
-        if (labels.length > 0) {
-          gsap.set(labels, { autoAlpha: 0, y: 16, scale: 0.88 });
-        }
-
-        const intro = gsap.timeline({
+          y: 28,
+          scale: 0.97,
+          duration: 0.58,
+          ease: "back.out(1.45)",
+          immediateRender: false,
           scrollTrigger: {
-            trigger: card,
-            start: "clamp(top 78%)",
-            end: "clamp(top 42%)",
-            toggleActions: "play none none reverse",
+            trigger: item,
+            start: "clamp(top 86%)",
+            once: true,
           },
         });
-
-        intro
-          .to(card, {
-            autoAlpha: 1,
-            y: 0,
-            scale: 1,
-            rotate: 0,
-            clipPath: "inset(0% 0% 0% 0% round 8px)",
-            duration: 0.82,
-            ease: "power3.out",
-          })
-          .to(
-            visual,
-            {
-              autoAlpha: 1,
-              x: 0,
-              y: 0,
-              scale: 1,
-              rotate: 0,
-              duration: 0.85,
-              ease: "back.out(1.35)",
-            },
-            0.12,
-          )
-          .to(
-            content,
-            {
-              autoAlpha: 1,
-              x: 0,
-              y: 0,
-              scale: 1,
-              duration: 0.68,
-              ease: "power3.out",
-            },
-            0.22,
-          )
-          .to(
-            labels,
-            {
-              autoAlpha: 1,
-              y: 0,
-              scale: 1,
-              duration: 0.4,
-              ease: "back.out(1.8)",
-              stagger: 0.035,
-            },
-            0.44,
-          );
-
-        ScrollTrigger.create({
-          trigger: card,
-          start: "clamp(top 58%)",
-          end: "clamp(bottom 42%)",
-          toggleClass: { targets: card, className: "is-active" },
-        });
-
-        if (visual) {
-          gsap.fromTo(
-            visual,
-            { yPercent: isEven ? -3 : 3 },
-            {
-              yPercent: isEven ? 3 : -3,
-              ease: "none",
-              scrollTrigger: {
-                trigger: card,
-                start: "clamp(top bottom)",
-                end: "clamp(bottom top)",
-                scrub: 1,
-              },
-            },
-          );
-        }
       });
+
+      gsap.utils
+        .toArray<HTMLElement>(".timeline-content, .capability-card")
+        .forEach((card) => {
+          const isTimeline = card.classList.contains("timeline-content");
+
+          gsap.to(card, {
+            "--card-from": isTimeline ? "#AEDDF7" : "#FFC7DA",
+            "--card-to": isTimeline ? "#FFE29E" : "#AEDDF7",
+            "--card-orb": isTimeline ? "#FF9DC0" : "#FFCB5C",
+            "--card-wash": "#fff8df",
+            ease: "none",
+            scrollTrigger: {
+              trigger: card,
+              start: "clamp(top 86%)",
+              end: "clamp(bottom 24%)",
+              scrub: 1,
+            },
+          });
+        });
 
       gsap.utils.toArray<HTMLElement>(".viewport-panel").forEach((panel) => {
+        if (panel.classList.contains("proof-journey-section")) {
+          return;
+        }
+
         const panelContent = panel.querySelector(".section-content");
 
         if (panelContent) {
-          gsap.fromTo(
+          gsap.from(
             panelContent,
             {
               y: 48,
               scale: 0.985,
               autoAlpha: 0,
-            },
-            {
-              y: 0,
-              scale: 1,
-              autoAlpha: 1,
               duration: 0.8,
               ease: "power3.out",
+              immediateRender: false,
               scrollTrigger: {
                 trigger: panel,
                 start: "clamp(top 72%)",
@@ -777,10 +987,13 @@ export default function Home() {
       };
       window.addEventListener("load", refresh, { once: true });
       document.fonts?.ready.then(refresh);
+      const refreshFrame = window.requestAnimationFrame(refresh);
 
       return () => {
         isActive = false;
+        window.cancelAnimationFrame(refreshFrame);
         window.removeEventListener("load", refresh);
+        proofMatchMedia.revert();
         pointerCleanups.forEach((cleanup) => cleanup());
         split.revert();
         headingSplits.forEach((headingSplit) => headingSplit.revert());
@@ -820,116 +1033,18 @@ export default function Home() {
             </a>
           </nav>
 
-          <div className="hero-illustration" aria-hidden="true">
-            <div
-              className="system-grid hero-depth-layer"
-              data-depth-x="3"
-              data-depth-y="2"
-            />
-
-            <svg
-              className="trace-lines hero-depth-layer"
-              data-depth-x="-5"
-              data-depth-y="-3"
-              viewBox="0 0 720 430"
-              role="presentation"
-            >
-              <path d="M188 218 C270 150 365 152 420 112 C472 74 508 72 570 88" />
-              <path d="M188 218 C312 284 424 284 548 270 C594 264 628 250 658 230" />
-              <path d="M398 82 C446 132 510 164 558 216 C596 256 608 288 610 326" />
-            </svg>
-
-            <div
-              className="system-layer layer-api hero-depth-layer"
-              data-depth-x="8"
-              data-depth-y="7"
-            >
-              <span>API</span>
-              <strong>Request boundary</strong>
-              <small>184 MS</small>
-            </div>
-
-            <div
-              className="system-layer layer-events hero-depth-layer"
-              data-depth-x="-9"
-              data-depth-y="5"
-            >
-              <span>EVENTS</span>
-              <strong>Runtime stream</strong>
-              <small>HEALTHY</small>
-            </div>
-
-            <div
-              className="system-layer layer-case hero-depth-layer"
-              data-depth-x="14"
-              data-depth-y="-10"
-            >
-              <span>CASE FILE</span>
-              <strong>Flow reconstruction</strong>
-              <small>TRACE</small>
-            </div>
-
-            <div
-              className="system-layer layer-db hero-depth-layer"
-              data-depth-x="-6"
-              data-depth-y="10"
-            >
-              <span>DB</span>
-              <strong>Evidence store</strong>
-            </div>
-
-            <div
-              className="system-code hero-depth-layer"
-              data-depth-x="18"
-              data-depth-y="12"
-            >
-              <span>SOURCE</span>
-              <code>INGESTION</code>
-              <code>TRACE</code>
-            </div>
-
-            <div
-              className="hero-bubble-parallax hero-depth-layer bubble-hero-one"
-              data-depth-x="22"
-              data-depth-y="14"
-            >
-              <div className="bubble hero-bubble-surface" />
-            </div>
-            <div
-              className="hero-bubble-parallax hero-depth-layer bubble-hero-two"
-              data-depth-x="-12"
-              data-depth-y="-9"
-            >
-              <div className="bubble hero-bubble-surface" />
-            </div>
-            <div
-              className="hero-bubble-parallax hero-depth-layer bubble-hero-three"
-              data-depth-x="10"
-              data-depth-y="-16"
-            >
-              <div className="bubble hero-bubble-surface" />
-            </div>
+          <div className="hero-illustration">
+            <HeroSystemVisual />
           </div>
 
           <div className="hero-copy">
             <p className="eyebrow">BACKEND ENGINEER · ADDIS ABABA</p>
             <h1 className="hero-title">
-              I build backend systems
-              <br />
-              that hold up when money, state,
-              <br />
-              and production pressure enter the room.
+              I build backend systems that stay reliable.
             </h1>
             <p className="scroll-reveal-copy">
-              I’m Israel Asefa. I design APIs, payment flows, ledgers,
-              integrations, and internal systems where the backend has to be the
-              source of truth.
-            </p>
-            <p className="hero-support-copy">
-              I’ve spent more than four years turning fragile workflows into
-              controlled systems, fixing production failures, and building
-              software that can explain what happened after something goes
-              wrong.
+              APIs, payments, ledgers, and integrations with clear ownership
+              and controlled state.
             </p>
             <div className="hero-actions">
               <a className="primary-link" href="#work">
@@ -939,11 +1054,6 @@ export default function Home() {
                 Talk to me <ArrowUpRight size={18} />
               </a>
             </div>
-            <p className="hero-status">OPEN TO REMOTE BACKEND ROLES</p>
-            <p className="credibility-strip">
-              4+ YEARS · SPRING BOOT · FASTAPI · NODE.JS · POSTGRESQL ·
-              PAYMENTS · PRODUCTION SYSTEMS
-            </p>
           </div>
         </div>
       </section>
@@ -978,48 +1088,97 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="work" className="section viewport-panel snap-section work-section">
+      <section id="work" className="section viewport-panel snap-section work-section proof-journey-section">
         <div className="bubble bubble-work" />
-        <div className="section-content">
-          <div className="section-heading proof-heading">
-            <span className="section-index">02</span>
-            <div>
-              <p className="eyebrow">PROOF</p>
-              <h2 className="pop-heading">Systems that had to hold up after release.</h2>
-              <p className="section-intro pop-copy">
-                Payment ledgers, runtime diagnostics, infrastructure control,
-                business workflows, and production systems people depended on.
-              </p>
-            </div>
-          </div>
+        <div className="section-content proof-journey">
+          <div className="proof-stage">
+            <div className="proof-orbit" aria-hidden="true" />
+            <div className="proof-grid" aria-hidden="true" />
 
-          <div className="project-list">
-            {projects.map((project) => (
-              <article className="project-card" key={project.name}>
-                <div className="project-visual-frame">
-                  <ProjectVisual kind={project.diagram as ProjectDiagramKind} />
+            <div className="section-heading proof-heading">
+              <span className="section-index">02</span>
+              <div>
+                <p className="eyebrow">PROOF</p>
+                <h2>Systems that had to hold up after release.</h2>
+                <p className="section-intro">
+                  Payment ledgers, runtime diagnostics, infrastructure control,
+                  business workflows, and production systems people depended on.
+                </p>
+              </div>
+            </div>
+
+            <div className="proof-map" aria-hidden="true">
+              <div className="proof-route" />
+              {projects.map((project, projectIndex) => (
+                <div
+                  className="proof-marker"
+                  data-proof-marker={projectIndex}
+                  key={project.name}
+                >
+                  <span>{project.index}</span>
+                  <strong>{project.name}</strong>
                 </div>
-                <div className="project-content pop-copy">
-                  <span className="project-index">{project.index}</span>
-                  <div className="project-copy-main">
-                    <p className="project-meta">{project.metadata}</p>
-                    <h3>{project.title}</h3>
-                    <p>{project.summary}</p>
+              ))}
+            </div>
+
+            <div className="proof-scenes">
+              {projects.map((project, projectIndex) => (
+                <article
+                  className="proof-project-scene"
+                  data-proof-scene={projectIndex}
+                  key={project.name}
+                >
+                  <div className="proof-visual-frame">
+                    <ProjectVisual kind={project.diagram as ProjectDiagramKind} />
                   </div>
-                  <ul className="project-detail-labels">
-                    {project.details.map((detail) => (
-                      <li key={detail}>{detail}</li>
-                    ))}
-                  </ul>
-                  {project.outcome ? (
-                    <p className="project-outcome">{project.outcome}</p>
-                  ) : null}
-                  <a className="project-link" href="#contact">
-                    {project.linkText} <ArrowUpRight size={16} />
-                  </a>
-                </div>
-              </article>
-            ))}
+                  <div className="proof-project-content">
+                    <span className="project-index">{project.index}</span>
+                    <div className="proof-copy-main">
+                      <p className="project-meta">{project.metadata}</p>
+                      <h3>{project.title}</h3>
+                      <p>{project.summary}</p>
+                    </div>
+                    <ul className="proof-detail-labels">
+                      {project.details.map((detail) => (
+                        <li key={detail}>{detail}</li>
+                      ))}
+                    </ul>
+                    {project.outcome ? (
+                      <p className="project-outcome meta-line">{project.outcome}</p>
+                    ) : null}
+                    <a className="proof-project-link" href="#contact">
+                      {project.linkText} <ArrowUpRight size={16} />
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            <div className="proof-summary">
+              <div className="proof-summary-copy">
+                <span className="section-index">02</span>
+                <p className="eyebrow">PROOF</p>
+                <h3>Systems that had to hold up after release.</h3>
+                <p>
+                  Payment ledgers, runtime diagnostics, infrastructure control,
+                  business workflows, and production systems people depended on.
+                </p>
+              </div>
+              <div className="proof-summary-grid">
+                {projects.map((project) => (
+                  <article className="proof-summary-card" key={project.name}>
+                    <span>{project.index}</span>
+                    <strong>{project.name}</strong>
+                    <p>{project.metadata}</p>
+                    <div>
+                      {project.details.slice(0, 3).map((detail) => (
+                        <small key={detail}>{detail}</small>
+                      ))}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
