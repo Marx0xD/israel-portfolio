@@ -8,6 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import {
   ArrowUpRight,
+  Download,
   Mail,
   Sparkles,
 } from "lucide-react";
@@ -57,27 +58,54 @@ const HeroSystemVisual = dynamic(
 
 const navItems = [
   ["Work", "#work"],
+  ["Approach", "#working-style"],
   ["Experience", "#experience"],
-  ["About", "#about"],
-  ["Contact", "#contact"],
+  ["Role fit", "#role-fit"],
 ];
 
 const skillGroups = [
   {
-    title: "Backend systems",
-    body: "Java, Spring Boot, Python, FastAPI, Node.js, REST APIs, authentication, authorization, business rules, and service boundaries.",
+    title: "Backend applications and APIs",
+    body: "Java, Spring Boot, Python, FastAPI, Node.js, REST APIs, authentication, authorization, and service boundaries.",
   },
   {
-    title: "Data and state",
-    body: "PostgreSQL, SQL, Hibernate/JPA, MySQL, MongoDB, relational modeling, transactions, ledgers, ownership records, and operational history.",
+    title: "Data, state, and business rules",
+    body: "PostgreSQL, SQL, Hibernate/JPA, MySQL, MongoDB, relational modeling, transactions, ledgers, and operational history.",
   },
   {
-    title: "Payments and integrations",
-    body: "Stripe, Mastercard, wallet systems, webhooks, SMS services, external APIs, biometric devices, and legacy data migration.",
+    title: "Integrations and distributed workflows",
+    body: "External APIs, webhooks, SMS services, biometric devices, Kafka, asynchronous workflows, Stripe, Mastercard, wallets, and legacy migration.",
   },
   {
-    title: "Runtime and delivery",
-    body: "Kafka, asynchronous workflows, Docker, unit tests, integration tests, code reviews, deployment support, and production debugging.",
+    title: "Platform, infrastructure, and runtime",
+    body: "Docker, SSH, remote provisioning, deployment support, unit and integration testing, production debugging, and runtime diagnostics.",
+  },
+];
+
+const roleFits = [
+  {
+    title: "Backend application engineering",
+    proof: "Product APIs, service boundaries, business rules, and data models.",
+  },
+  {
+    title: "Java and Spring systems",
+    proof: "Spring Boot services, control planes, ledgers, and operational workflows.",
+  },
+  {
+    title: "Python, FastAPI, and developer tooling",
+    proof: "Runtime ingestion, reconstruction, provisioning, and diagnostic tools.",
+  },
+  {
+    title: "Integrations and workflows",
+    proof: "External services, webhooks, devices, approvals, retries, and migrations.",
+  },
+  {
+    title: "Platform and infrastructure automation",
+    proof: "Remote hosts, Docker services, encrypted SSH, and lifecycle operations.",
+  },
+  {
+    title: "Runtime diagnostics",
+    proof: "Event capture, database activity, errors, and source-linked case files.",
   },
 ];
 
@@ -88,12 +116,20 @@ const projects = [
     metadata: "NITESHIFT SYSTEMS · SPRING BOOT · STRIPE",
     diagram: "credit",
     title: "I stopped the browser from deciding how much credit a user had.",
-    summary: "The old credit flow trusted frontend state. That made balance logic easy to desynchronize and hard to support.",
-    full: [
-      "I rebuilt it around a backend-controlled ledger. Credit calculation, mutation rules, available-balance checks, and sensitive actions moved into Spring Boot service workflows.",
-      "The work went beyond moving a few checks into an API.",
-      "I had to decide where credit authority lived, how purchases and subscriptions affected access, which actions could mutate a balance, and how the backend would stay consistent when Stripe events, user actions, and content ownership crossed paths.",
-      "The result was a system with one owner for credit state and a much smaller class of failures.",
+    summary: "The old flow trusted browser state, so balances and access logic could drift.",
+    evidence: [
+      {
+        label: "Owned",
+        value: "The Spring Boot ledger, mutation rules, balance checks, and Stripe-linked service flows.",
+      },
+      {
+        label: "Decision",
+        value: "Put credit authority in one backend model across purchases, subscriptions, and content ownership.",
+      },
+      {
+        label: "Result",
+        value: "One system of record and fewer ambiguous failure paths.",
+      },
     ],
     details: [
       "CREDIT LEDGER",
@@ -104,20 +140,27 @@ const projects = [
       "POSTGRESQL",
     ],
     outcome: "Credit-related support tickets dropped to zero after release.",
-    linkText: "Talk about backend ownership",
   },
   {
     index: "02",
     name: "Threadline",
     metadata: "RUNTIME DIAGNOSTICS · FASTAPI · POSTGRESQL",
     diagram: "threadline",
-    title: "Threadline turns backend execution into evidence.",
-    summary: "Threadline collects runtime events and reconstructs what a request actually did.",
-    full: [
-      "It orders events, detects request start and completion, builds operation trees, summarizes database activity, extracts errors, and produces a case file that can be inspected without guessing from scattered logs.",
-      "I am building Threadline around a simple belief: production failures should leave enough evidence to explain themselves.",
-      "The system includes SDK telemetry, ingestion, raw event storage, deterministic flow reconstruction, project authentication, and source intelligence that connects runtime behavior back to code.",
-      "Threadline is also proof of how I think. I care about causality, system state, boundaries, and whether an engineer can answer “what happened?” after the fact.",
+    title: "Threadline reconstructs what a backend request actually did.",
+    summary: "Scattered logs make it hard to explain a failure as one causal flow.",
+    evidence: [
+      {
+        label: "Owned",
+        value: "FastAPI ingestion, raw event storage, reconstruction, authentication, and source intelligence.",
+      },
+      {
+        label: "Decision",
+        value: "Build deterministic operation trees and case files from ordered runtime events.",
+      },
+      {
+        label: "Result",
+        value: "An inspectable request flow linked to database activity, errors, and source context.",
+      },
     ],
     details: [
       "EVENT INGESTION",
@@ -127,7 +170,6 @@ const projects = [
       "CASE FILES",
       "FASTAPI",
     ],
-    linkText: "View Threadline",
   },
   {
     index: "03",
@@ -135,11 +177,20 @@ const projects = [
     metadata: "INFRASTRUCTURE AUTOMATION · SPRING BOOT · PYTHON",
     diagram: "odoo",
     title: "One control plane for Odoo instances spread across remote servers.",
-    summary: "I designed a system for registering hosts, provisioning Odoo instances, managing deployment actions, and tracking operational state without relying on loose scripts and terminal history.",
-    full: [
-      "Spring Boot owns the system state. A Python provisioning layer performs SSH and Docker operations on remote Linux hosts.",
-      "The platform handles encrypted SSH credentials, Odoo and PostgreSQL services, deployment actions, configuration, and instance lifecycle commands such as start, stop, and update.",
-      "This project sits where backend engineering, infrastructure, and operational safety meet.",
+    summary: "Loose scripts and terminal history did not provide a durable operational record.",
+    evidence: [
+      {
+        label: "Owned",
+        value: "Host registration, provisioning, encrypted SSH, Docker services, and instance lifecycle operations.",
+      },
+      {
+        label: "Decision",
+        value: "Keep system state in Spring Boot and execute remote work through a Python provisioner.",
+      },
+      {
+        label: "Result",
+        value: "One stateful path for provisioning, starting, stopping, and updating Odoo instances.",
+      },
     ],
     details: [
       "REMOTE HOSTS",
@@ -149,18 +200,27 @@ const projects = [
       "SPRING BOOT",
       "PYTHON",
     ],
-    linkText: "View project",
   },
   {
     index: "04",
     name: "Business Systems",
     metadata: "ETTA SOLUTIONS · PAYMENTS · OPERATIONS",
     diagram: "business",
-    title: "I turned manual business processes into systems with explicit rules and history.",
-    summary: "At ETTA Solutions, I worked across tender management, internal transfers, Mastercard payment processing, digital wallet flows, document verification, SMS services, and legacy CNET data migration.",
-    full: [
-      "These systems were used in active business operations. That meant approval state, payment status, operational records, retries, data integrity, and support after release all mattered.",
-      "I also delivered an ERCA-compliant document signature and verification service that used hashing-based checks to detect tampering.",
+    title: "Business workflows with rules, history, and external dependencies.",
+    summary: "Manual and fragmented processes had to become software used in active operations.",
+    evidence: [
+      {
+        label: "Owned",
+        value: "Tender, transfer, payment, verification, SMS, and CNET migration workflows.",
+      },
+      {
+        label: "Decision",
+        value: "Model approvals, status, retries, records, and hash-based tamper checks inside the backend flow.",
+      },
+      {
+        label: "Result",
+        value: "Operational processes with explicit history and integration boundaries.",
+      },
     ],
     details: [
       "MASTERCARD",
@@ -170,18 +230,27 @@ const projects = [
       "SMS",
       "DATA MIGRATION",
     ],
-    linkText: "View project",
   },
   {
     index: "05",
     name: "Early Engineering",
     metadata: "AHAZ SOFTWARE SOLUTIONS · HRMS · INTEGRATIONS",
     diagram: "early",
-    title: "I learned backend engineering inside systems people depended on every day.",
-    summary: "At Ahaz, I built HRMS and payroll APIs, automated ZKTeco biometric attendance ingestion, and delivered Node.js services for employee attendance, site allocation, and field operations.",
-    full: [
-      "The work included data normalization, payroll logic, deployment support, and production debugging for client systems.",
-      "That period gave me a practical bias I still carry: software is not finished when the endpoint returns 200. It is finished when the surrounding workflow works.",
+    title: "Backend workflows that connected people, devices, and payroll.",
+    summary: "The useful system had to work beyond isolated endpoints and across a daily operational process.",
+    evidence: [
+      {
+        label: "Owned",
+        value: "HRMS and payroll APIs, attendance ingestion, normalization, deployment, and debugging.",
+      },
+      {
+        label: "Decision",
+        value: "Automate ZKTeco device data into the wider attendance and payroll workflow.",
+      },
+      {
+        label: "Result",
+        value: "End-to-end support for attendance, payroll, site allocation, and field operations.",
+      },
     ],
     details: [
       "HRMS",
@@ -191,7 +260,6 @@ const projects = [
       "NODE.JS",
       "PRODUCTION DEBUGGING",
     ],
-    linkText: "Talk about systems work",
   },
 ];
 
@@ -202,7 +270,7 @@ const experience = [
     period: "FEB 2024 — PRESENT",
     location: "REMOTE",
     text: [
-      "Owned backend work across credits, Stripe payments, subscriptions, purchases, content ownership, authentication, admin workflows, and production support.",
+      "Owned backend workflows across credits, payments, subscriptions, purchases, content access, authentication, admin operations, and production support.",
       "The largest change was replacing frontend-authoritative credit logic with a backend-controlled ledger and synchronization model.",
     ],
   },
@@ -212,8 +280,8 @@ const experience = [
     period: "JUN 2023 — SEP 2024",
     location: "ADDIS ABABA",
     text: [
-      "Built payment, procurement, transfer, verification, and internal operations systems used by active businesses.",
-      "Worked with Mastercard processing, digital wallets, SMS services, PostgreSQL workflows, and legacy data migration.",
+      "Built systems for procurement, transfers, document verification, payments, messaging, and internal operations.",
+      "Integrated Mastercard, wallets, SMS, and PostgreSQL workflows, and migrated legacy CNET data while supporting active operations.",
     ],
   },
   {
@@ -222,8 +290,8 @@ const experience = [
     period: "FEB 2021 — DEC 2022",
     location: "ADDIS ABABA",
     text: [
-      "Built HRMS, payroll, attendance, and field-operation APIs.",
-      "Automated biometric device ingestion and supported client systems through deployment, debugging, and production use.",
+      "Built HRMS, payroll, attendance, and field-operation APIs and normalized operational data.",
+      "Automated ZKTeco biometric ingestion and supported client systems through deployment, debugging, and production use.",
     ],
   },
 ];
@@ -384,6 +452,17 @@ export default function Home() {
         ease: "none",
         scrollTrigger: {
           trigger: "#skills",
+          start: "clamp(top 72%)",
+          end: "clamp(bottom 28%)",
+          scrub: true,
+        },
+      });
+
+      gsap.to(document.documentElement, {
+        "--page-wash": "#fff4cf",
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#role-fit",
           start: "clamp(top 72%)",
           end: "clamp(bottom 28%)",
           scrub: true,
@@ -909,7 +988,7 @@ export default function Home() {
       });
 
       gsap.utils
-        .toArray<HTMLElement>(".timeline-content, .capability-card")
+        .toArray<HTMLElement>(".timeline-content, .capability-card, .role-fit-card")
         .forEach((card) => {
           const isTimeline = card.classList.contains("timeline-content");
 
@@ -1026,10 +1105,13 @@ export default function Home() {
                   {label}
                 </a>
               ))}
+              <a className="nav-link" href="/resume.pdf" download="Israel-Asefa-Resume.pdf">
+                Resume
+              </a>
             </div>
 
             <a className="nav-action" href="#contact">
-              Let’s talk <ArrowUpRight size={15} />
+              Discuss a role <ArrowUpRight size={15} />
             </a>
           </nav>
 
@@ -1038,20 +1120,20 @@ export default function Home() {
           </div>
 
           <div className="hero-copy">
-            <p className="eyebrow">BACKEND ENGINEER · ADDIS ABABA</p>
+            <p className="eyebrow">BACKEND ENGINEER · ADDIS ABABA · REMOTE</p>
             <h1 className="hero-title">
-              I build backend systems that stay reliable.
+              I build backend systems that hold together as products get complicated.
             </h1>
             <p className="scroll-reveal-copy">
-              APIs, payments, ledgers, and integrations with clear ownership
-              and controlled state.
+              APIs, data models, workflows, integrations, infrastructure operations,
+              and runtime evidence—from development through production.
             </p>
             <div className="hero-actions">
               <a className="primary-link" href="#work">
-                View my work <ArrowUpRight size={18} />
+                View selected work <ArrowUpRight size={18} />
               </a>
               <a className="secondary-link" href="#contact">
-                Talk to me <ArrowUpRight size={18} />
+                Discuss a backend role <ArrowUpRight size={18} />
               </a>
             </div>
           </div>
@@ -1065,7 +1147,7 @@ export default function Home() {
             <span className="section-index">01</span>
             <div>
               <p className="eyebrow">WHY ISRAEL</p>
-              <h2 className="pop-heading">Backend ownership when state gets expensive.</h2>
+              <h2 className="pop-heading">Backend ownership when the system crosses boundaries.</h2>
             </div>
           </div>
 
@@ -1074,14 +1156,16 @@ export default function Home() {
               <BackendOwnershipDiagram />
             </div>
             <aside className="compact-copy-panel why-copy-panel">
-              <span className="panel-label">WHAT I FIX</span>
+              <span className="panel-label">WHERE I HELP</span>
               <p>
-                I am useful when the backend has to become the source of truth.
+                I am useful when one backend flow crosses APIs, rules, data,
+                external services, infrastructure, and production support.
               </p>
               <ul className="value-list compact-value-list">
-                <li>Balances, payments, permissions, and retries.</li>
-                <li>Rules moved to the boundary that controls them.</li>
-                <li>Evidence left behind when production gets messy.</li>
+                <li>Turn product rules into service and data boundaries.</li>
+                <li>Connect external systems without losing workflow context.</li>
+                <li>Make infrastructure operations part of a controlled system.</li>
+                <li>Follow failures from runtime behavior back to code and data.</li>
               </ul>
             </aside>
           </div>
@@ -1101,8 +1185,8 @@ export default function Home() {
                 <p className="eyebrow">PROOF</p>
                 <h2>Systems that had to hold up after release.</h2>
                 <p className="section-intro">
-                  Payment ledgers, runtime diagnostics, infrastructure control,
-                  business workflows, and production systems people depended on.
+                  Product backends, developer tooling, infrastructure control,
+                  operational workflows, and a payment ledger with measurable impact.
                 </p>
               </div>
             </div>
@@ -1138,17 +1222,22 @@ export default function Home() {
                       <h3>{project.title}</h3>
                       <p>{project.summary}</p>
                     </div>
+                    <dl className="proof-evidence-list">
+                      {project.evidence.map((item) => (
+                        <div key={item.label}>
+                          <dt>{item.label}</dt>
+                          <dd>{item.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
                     <ul className="proof-detail-labels">
-                      {project.details.map((detail) => (
+                      {project.details.slice(0, 3).map((detail) => (
                         <li key={detail}>{detail}</li>
                       ))}
                     </ul>
                     {project.outcome ? (
                       <p className="project-outcome meta-line">{project.outcome}</p>
                     ) : null}
-                    <a className="proof-project-link" href="#contact">
-                      {project.linkText} <ArrowUpRight size={16} />
-                    </a>
                   </div>
                 </article>
               ))}
@@ -1158,10 +1247,10 @@ export default function Home() {
               <div className="proof-summary-copy">
                 <span className="section-index">02</span>
                 <p className="eyebrow">PROOF</p>
-                <h3>Systems that had to hold up after release.</h3>
+                <h3>Five systems. One end-to-end view.</h3>
                 <p>
-                  Payment ledgers, runtime diagnostics, infrastructure control,
-                  business workflows, and production systems people depended on.
+                  Different stacks and domains, with the same responsibility for
+                  understanding behavior across boundaries.
                 </p>
               </div>
               <div className="proof-summary-grid">
@@ -1187,35 +1276,29 @@ export default function Home() {
         <div className="bubble bubble-about" />
         <div className="section-content text-section-content">
           <div className="section-heading compact">
-            <span className="section-index">03</span>
-            <div>
-              <p className="eyebrow">ABOUT ISRAEL</p>
-              <h2 className="pop-heading">I care about where truth lives in a system.</h2>
-            </div>
+              <span className="section-index">03</span>
+              <div>
+                <p className="eyebrow">ABOUT ISRAEL</p>
+              <h2 className="pop-heading">I work best where backend decisions shape the whole product.</h2>
+              </div>
           </div>
 
           <div className="body-copy pop-copy">
             <p>I’m a backend engineer based in Addis Ababa, Ethiopia.</p>
             <p>
-              My work tends to cluster around payments, ledgers, operational
-              workflows, integrations, runtime behavior, and the awkward
-              failures that appear after software meets real users.
+              My work has covered product backends, internal business systems,
+              payments, infrastructure automation, external integrations,
+              developer tooling, and production support.
             </p>
             <p>
-              I like systems with clear authority. Credit belongs to the
-              backend. Payment state has to survive retries. Sensitive actions
-              need validation at the boundary that controls them. Production
-              failures should leave evidence.
+              The common thread is not one industry or framework. It is taking
+              systems with real rules and operational consequences and making
+              their boundaries, behavior, and responsibilities understandable.
             </p>
             <p>
-              That way of thinking runs through my client work and the products
-              I build for myself.
-            </p>
-            <p>
-              I can work across the stack, but my strongest contribution is
-              beneath the interface: business rules, APIs, data models,
-              integrations, and the operational behavior holding the product
-              together.
+              I contribute most strongly beneath the interface: service design,
+              APIs, data models, workflow logic, integrations, and the operational
+              paths that carry a change into production.
             </p>
             <p className="meta-line">BSC COMPUTER SCIENCE · HILCOE · 2022</p>
           </div>
@@ -1226,28 +1309,39 @@ export default function Home() {
         <div className="bubble bubble-style" />
         <div className="section-content text-section-content">
           <div className="section-heading compact">
-            <span className="section-index">04</span>
-            <div>
-              <p className="eyebrow">HOW I WORK</p>
-              <h2 className="pop-heading">Clear ownership. Explicit state. Evidence when things fail.</h2>
-            </div>
+              <span className="section-index">04</span>
+              <div>
+                <p className="eyebrow">HOW I WORK</p>
+              <h2 className="pop-heading">A practical method for complex backend work.</h2>
+              </div>
           </div>
 
           <div className="body-copy diagram-led-copy pop-copy">
             <div className="diagram-feature">
               <EngineeringLoopDiagram />
             </div>
-            <div className="compact-copy-panel">
-              <p>
-                I start by deciding who owns the truth, what state changes are
-                allowed, and how the system explains itself when something goes
-                wrong.
-              </p>
-              <p>
-                The goal is simple: small boundaries, explicit rules, and
-                production behavior that can be understood after release.
-              </p>
-            </div>
+            <ol className="method-list compact-copy-panel">
+              <li>
+                <span>01</span>
+                <p><strong>Trace the full flow.</strong> Start at the request and follow rules, data, dependencies, and operational actions.</p>
+              </li>
+              <li>
+                <span>02</span>
+                <p><strong>Assign authority.</strong> Decide which boundary can make each decision and which records are durable.</p>
+              </li>
+              <li>
+                <span>03</span>
+                <p><strong>Model transitions and failures.</strong> Make retries, invalid actions, and recovery paths part of the design.</p>
+              </li>
+              <li>
+                <span>04</span>
+                <p><strong>Integrate deliberately.</strong> Keep external services and infrastructure actions behind clear contracts.</p>
+              </li>
+              <li>
+                <span>05</span>
+                <p><strong>Leave a runtime trail.</strong> Capture enough context to explain what happened after release.</p>
+              </li>
+            </ol>
           </div>
         </div>
       </section>
@@ -1255,10 +1349,10 @@ export default function Home() {
       <section id="experience" className="experience-section viewport-panel snap-section">
         <div className="experience-inner section-content">
           <div className="section-heading compact">
-            <span className="section-index">05</span>
-            <div>
-              <p className="eyebrow">EXPERIENCE</p>
-              <h2 className="pop-heading">Four years of backend work under real business constraints.</h2>
+              <span className="section-index">05</span>
+              <div>
+                <p className="eyebrow">EXPERIENCE</p>
+              <h2 className="pop-heading">Backend work across products, operations, and production support.</h2>
             </div>
           </div>
 
@@ -1289,13 +1383,13 @@ export default function Home() {
         <div className="bubble bubble-skills" />
         <div className="section-content">
           <div className="section-heading compact">
-            <span className="section-index">06</span>
-            <div>
-              <p className="eyebrow">WHAT YOU GET</p>
-              <h2 className="pop-heading">Backend range without vague ownership.</h2>
+              <span className="section-index">06</span>
+              <div>
+              <p className="eyebrow">BACKEND RANGE</p>
+              <h2 className="pop-heading">A broad backend range, organized around complete systems.</h2>
               <p className="section-intro pop-copy">
-                I am most useful when the job crosses more than one layer and
-                still needs one person to understand the whole flow.
+                The stack changes by problem. The work still has to connect
+                application behavior, data, integrations, infrastructure, and runtime support.
               </p>
             </div>
           </div>
@@ -1310,9 +1404,38 @@ export default function Home() {
             ))}
           </div>
           <p className="skill-note pop-copy">
-            Frameworks change. The harder work is deciding who owns the state,
-            what can fail, and how the system recovers.
+            Frameworks are tools. The deeper value is being able to follow a
+            backend change through every layer it affects.
           </p>
+        </div>
+      </section>
+
+      <section id="role-fit" className="section viewport-panel snap-section role-fit-section">
+        <div className="bubble bubble-style" />
+        <div className="section-content">
+          <div className="section-heading compact">
+            <span className="section-index">07</span>
+            <div>
+              <p className="eyebrow">ROLE FIT</p>
+              <h2 className="pop-heading">Where this experience maps to backend roles.</h2>
+              <p className="section-intro pop-copy">
+                These are the backend paths most directly supported by the work above.
+              </p>
+            </div>
+          </div>
+
+          <div className="role-fit-grid">
+            {roleFits.map((role) => (
+              <article className="role-fit-card pop-copy" key={role.title}>
+                <ArrowUpRight size={18} />
+                <h3>{role.title}</h3>
+                <p>{role.proof}</p>
+              </article>
+            ))}
+          </div>
+          <a className="role-fit-link pop-copy" href="#work">
+            See the supporting systems <ArrowUpRight size={17} />
+          </a>
         </div>
       </section>
 
@@ -1320,27 +1443,34 @@ export default function Home() {
         <div className="bubble bubble-contact" />
         <div className="section-content">
           <p className="eyebrow">WORK WITH ISRAEL</p>
-          <h2 className="pop-heading">Need someone who can take ownership of the backend, not just close tickets?</h2>
+          <h2 className="pop-heading">Need someone who can own the backend flow, not just close isolated tickets?</h2>
           <p className="contact-copy pop-copy">
             I’m open to remote backend roles and selected contract work.
           </p>
           <p className="contact-copy pop-copy">
-            The best fit is a product dealing with payments, internal
-            operations, integrations, developer tooling, infrastructure, or
-            production reliability. Give me a system with real state and real
-            consequences. That is where I do my best work.
+            The strongest fit is a team dealing with complex product behavior,
+            integrations, internal workflows, developer tooling, infrastructure
+            operations, or production reliability.
           </p>
           <p className="availability">AVAILABLE FOR REMOTE BACKEND WORK</p>
           <div className="contact-actions">
             <a className="primary-link" href="mailto:israel.asefawm.mi1055@gmail.com">
-              <Mail size={18} /> Email Israel
+              <Mail size={18} /> Discuss a backend role
             </a>
             <a
               className="secondary-link"
-              href="https://www.linkedin.com/in/israel-asefa"
+              href="https://www.linkedin.com/in/israel-asefa-978529202/"
               target="_blank"
+              rel="noreferrer"
             >
               View LinkedIn <ArrowUpRight size={18} />
+            </a>
+            <a
+              className="secondary-link"
+              href="/resume.pdf"
+              download="Israel-Asefa-Resume.pdf"
+            >
+              <Download size={18} /> Download resume
             </a>
           </div>
           <p className="email-line">israel.asefawm.mi1055@gmail.com</p>
@@ -1355,10 +1485,11 @@ export default function Home() {
         <nav aria-label="Footer navigation">
           <a href="#work">Work</a>
           <a href="#experience">Experience</a>
-          <a href="https://www.linkedin.com/in/israel-asefa" target="_blank">LinkedIn</a>
+          <a href="/resume.pdf" download="Israel-Asefa-Resume.pdf">Resume</a>
+          <a href="https://www.linkedin.com/in/israel-asefa-978529202/" target="_blank" rel="noreferrer">LinkedIn</a>
           <a href="mailto:israel.asefawm.mi1055@gmail.com">Email</a>
         </nav>
-        <p>Built around real work, not portfolio filler.</p>
+        <p>Backend systems across product, data, integrations, and operations.</p>
       </footer>
     </main>
   );

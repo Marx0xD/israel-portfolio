@@ -15,9 +15,9 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Israel Asefa",
+  title: "Israel Asefa · Backend Engineer",
   description:
-    "Backend engineer for systems where mistakes have consequences: payments, balances, permissions, integrations, operations, and production failures.",
+    "Backend engineer designing and operating complex systems across APIs, data, workflows, integrations, infrastructure, and production.",
 };
 
 export default function RootLayout({
